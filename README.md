@@ -100,6 +100,3 @@ npm run serve
 ````
 npm run build
 ````
-
-
-### 如果对你有帮助，请给个Star

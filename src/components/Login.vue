@@ -3,8 +3,8 @@
         <div class="container">
             <p class="title">WELCOME</p>
             <div class="input-c">
-                <Input prefix="ios-contact" v-model="account" placeholder="用户名" clearable @on-blur="verifyAccount"/>
-                <p class="error">{{accountError}}</p>
+                <Input prefix="ios-contact" v-model="username" placeholder="用户名" clearable @on-blur="verifyAccount"/>
+                <p class="error">{{usernameError}}</p>
             </div>
             <div class="input-c">
                 <Input type="password" v-model="pwd" prefix="md-lock" placeholder="密码" clearable @on-blur="verifyPwd"/>
@@ -18,12 +18,10 @@
                     </Col>
                     <Col span="12">
                         <div class="block">
-                            <img :src="src" @click="getImgCode"></img>
+                            <img :src="imageCode" @click="getImgCode"></img>
                         </div>
                     </Col>
                 </Row>
-                
-                
                 <p class="error">{{codeError}}</p>
             </div>
             <Button :loading="isShowLoading" class="submit" type="primary" @click="submit">登录</Button>
@@ -37,15 +35,15 @@ export default {
     name: 'login',
     data() {
         return {
-            account: 'admin',
-            pwd: 'admin',
-            accountError: '',
+            username: 'lisi',
+            pwd: '123456',
+            usernameError: '',
             pwdError: '',
             codeError: '',
             isShowLoading: false,
             bg: {},
             code: '',
-            src: 'http://localhost:8080/user/getAuthCode'
+            imageCode: 'http://localhost:8080/user/getAuthCode',
         }
     },
     created() {
@@ -61,10 +59,10 @@ export default {
     },
     methods: {
         verifyAccount(e) {
-            if (this.account !== 'admin') {
-                this.accountError = '账号为admin'
+            if (this.username !== 'admin') {
+                this.usernameError = '账号为admin'
             } else {
-                this.accountError = ''
+                this.usernameError = ''
             }
         },
         verifyPwd(e) {
@@ -82,9 +80,12 @@ export default {
             }
         },
         getImgCode(){
-            axios.get('/user/getAuthCode')
+            let that = this
+            var randomNum = Math.random
+            this.axios.get('/user/getAuthCode?num='+randomNum)
             .then(function (response) {
                 console.log(response);
+                that.imageCode = 'http://localhost:8080/user/getAuthCode?'+randomNum;
             })
             .catch(function (error) {
                 console.log(error);
@@ -97,24 +98,57 @@ export default {
             console.log('忘记密码')
         },
         submit() {
-            if (this.account === 'admin' && this.pwd === 'admin') {
-                this.isShowLoading = true
-                // 登陆成功 设置用户信息
-                localStorage.setItem('userImg', 'https://avatars3.githubusercontent.com/u/22117876?s=460&v=4')
-                localStorage.setItem('userName', '小明')
-                // 登陆成功 假设这里是后台返回的 token
-                localStorage.setItem('token', 'i_am_token')
-                this.$router.push({path: this.redirect || '/'})
+            let that = this
+            this.axios.post('/user/login', {
+                username: this.username,
+                password: this.pwd
+            })
+            .then(function (response) {
+                console.log(response);
+                if(200 === response.data.code){
+                    that.isShowLoading = true
+                    // 登陆成功 设置用户信息
+                    localStorage.setItem('userImg', 'https://avatars3.githubusercontent.com/u/22117876?s=460&v=4')
+                    localStorage.setItem('userName', '小明')
+                    // 登陆成功 假设这里是后台返回的 token
+                    localStorage.setItem('token', response.data.object)
+                    that.$router.push({path: that.redirect || '/'})
+                }else{
+                    if(401 === response.data.code){
+                        localStorage.removeItem('token')
+                        that.$router.push('/login')
+                    }
+                    // if (this.username !== 'admin') {
+                    //     this.usernameError = '账号为admin'
+                    // } 
+                    // if (this.pwd !== 'admin') {
+                    //     this.pwdError = '密码为admin'
+                    // } 
+                }
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            //无验证
+            if (this.username === 'admin' && this.pwd === 'admin') {
+                // this.isShowLoading = true
+                // // 登陆成功 设置用户信息
+                // localStorage.setItem('userImg', 'https://avatars3.githubusercontent.com/u/22117876?s=460&v=4')
+                // localStorage.setItem('userName', '小明')
+                // // 登陆成功 假设这里是后台返回的 token
+                // localStorage.setItem('token', 'i_am_token')
+                // this.$router.push({path: this.redirect || '/'})
             } else {
-                if (this.account !== 'admin') {
-                    this.accountError = '账号为admin'
-                } 
-                if (this.pwd !== 'admin') {
-                    this.pwdError = '密码为admin'
-                } 
+                // if (this.username !== 'admin') {
+                //     this.usernameError = '账号为admin'
+                // } 
+                // if (this.pwd !== 'admin') {
+                //     this.pwdError = '密码为admin'
+                // } 
             }
         }
-    }
+    },
 }
 </script>
 

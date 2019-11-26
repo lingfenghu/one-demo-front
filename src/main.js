@@ -8,20 +8,28 @@ import iView from 'iview'
 import axios from 'axios'
 import 'iview/dist/styles/iview.css'
 import './permission'
+import VueAxios from 'vue-axios'
+import Axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.use(iView)
 Vue.use(ElementUI);
-Vue.use(axios)
+
+Vue.use(VueAxios, axios)
 
 // 设置基础URL
 axios.defaults.baseURL = 'http://localhost:8080'
 // 设置请求超时时间
 axios.defaults.timeout = 5000
+//axios全局token
+Axios.defaults.headers.token = store.state.token
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    if(localStorage.getItem('token')){
+      config.headers.token = localStorage.getItem('token')
+    }
     return config;
   }, function (error) {
     // 对请求错误做些什么
@@ -37,7 +45,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
   });
 
-Vue.prototype.$axios = axios
+// Vue.prototype.$axios = axios
 
 new Vue({
     el: '#app',

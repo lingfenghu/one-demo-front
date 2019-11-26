@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store'
 
 Vue.use(Router)
+
+if(sessionStorage.getItem("token")){
+    store.commit("setToken",sessionStorage.getItem("token"))
+}
 
 const commonRoutes = [
     {
@@ -38,6 +43,11 @@ export const asyncRoutes = {
         path: 'userinfo',
         name: 'userinfo',
         component: () => import('../views/UserInfo.vue')
+    },
+    'basicinfo': {
+        path: 'basicinfo',
+        name: 'basicinfo',
+        component: () => import('../views/BasicInfo.vue')
     }
 }
 
@@ -47,6 +57,19 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
+
+router.beforeEach((to,from,next)=>{
+    if(to.path === '/login'){
+        next()
+    }else{
+        let token = localStorage.getItem('token')
+        if(token === null || token === ''){
+            next('/login')
+        }else{
+            next()
+        }
+    }
+})
 
 export function resetRouter() {
   const newRouter = createRouter()

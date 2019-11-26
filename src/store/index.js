@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
+        token: '',
         // 左侧菜单栏数据
         menuItems: [
             {
@@ -14,14 +15,27 @@ const store = new Vuex.Store({
                 text: '主页', // 文本内容
             },
             {
-                text: '二级菜单',
+                text: '基本信息及制卡',
                 type: 'ios-paper',
                 children: [
                     {
                         type: 'ios-grid',
                         name: 't1',
                         text: '表格',
-                        hidden: true, // 隐藏此菜单 可以通过在地址栏上输入对应的 URL 来显示页面
+                        hidden: false, // 隐藏此菜单 可以通过在地址栏上输入对应的 URL 来显示页面
+                    },
+                    {
+                        text: '人员数据采集',
+                        type: 'ios-paper',
+                        name: 'basicinfo'
+                    },
+                    {
+                        text: '人员信息管理',
+                        type: 'ios-paper',
+                    },
+                    {
+                        text: '人员信息修改',
+                        type: 'ios-paper',
                     },
                     {
                         text: '三级菜单',
@@ -45,10 +59,50 @@ const store = new Vuex.Store({
                         ]
                     }
                 ]
+            },
+            {
+                text: '分析统计管理',
+                type: 'ios-paper',
+                children: [
+                    {
+                        text: '性别统计',
+                        type: 'ios-paper',
+                    },
+                    {
+                        text: '年龄统计',
+                        type: 'ios-paper',
+                    },
+                    {
+                        text: '工种统计',
+                        type: 'ios-paper',
+                    },
+                    {
+                        text: '等级统计',
+                        type: 'ios-paper',
+                    },
+                ]
+            },
+            {
+                text: '系统管理',
+                type: 'ios-paper',
+                children: [
+                    {
+                        text: '工种目录管理',
+                        type: 'ios-paper',
+                    }
+                ]
             }
         ],
     },
     mutations: {
+        setToken(state,token){
+            state.token = token
+            sessionStorage.token = token
+        },
+        removeToken(state){
+            state.token = ''
+            sessionStorage.removeItem("token")
+        },
         setMenus(state, items) {
             state.menuItems = [...items]
         },

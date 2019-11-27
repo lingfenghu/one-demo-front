@@ -48,6 +48,11 @@ export const asyncRoutes = {
         path: 'basicinfo',
         name: 'basicinfo',
         component: () => import('../views/BasicInfo.vue')
+    },
+    'stafflist': {
+        path: 'stafflist',
+        name: 'stafflist',
+        component: () => import('../views/StaffList.vue')
     }
 }
 

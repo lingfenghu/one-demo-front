@@ -22,7 +22,7 @@ const store = new Vuex.Store({
                         type: 'ios-grid',
                         name: 't1',
                         text: '表格',
-                        hidden: false, // 隐藏此菜单 可以通过在地址栏上输入对应的 URL 来显示页面
+                        hidden: true, // 隐藏此菜单 可以通过在地址栏上输入对应的 URL 来显示页面
                     },
                     {
                         text: '人员数据采集',
@@ -32,6 +32,7 @@ const store = new Vuex.Store({
                     {
                         text: '人员信息管理',
                         type: 'ios-paper',
+                        name: 'stafflist'
                     },
                     {
                         text: '人员信息修改',
@@ -40,11 +41,13 @@ const store = new Vuex.Store({
                     {
                         text: '三级菜单',
                         type: 'ios-paper',
+                        hidden: true,
                         children: [
                             {
                                 type: 'ios-notifications-outline',
                                 name: 'msg',
                                 text: '查看消息'
+                                
                             },
                             {
                                 type: 'md-lock',

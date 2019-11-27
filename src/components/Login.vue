@@ -82,10 +82,20 @@ export default {
         getImgCode(){
             let that = this
             var randomNum = Math.random
-            this.axios.get('/user/getAuthCode?num='+randomNum)
+
+            // that.axios({
+            //     method:'get',
+            //     url:'http://localhost:8080/user/getAuthCode',
+            //     responseType:'stream'
+            // })
+            // .then(function(response) {
+            //     response.data.pipe(fs.createWriteStream('imgCode.jpeg'))
+            // });
+
+            that.axios.get('/user/getAuthCode?num='+randomNum)
             .then(function (response) {
                 console.log(response);
-                that.imageCode = 'http://localhost:8080/user/getAuthCode?'+randomNum;
+                that.imageCode = 'http://localhost:8080/user/getAuthCode?num'+randomNum;
             })
             .catch(function (error) {
                 console.log(error);

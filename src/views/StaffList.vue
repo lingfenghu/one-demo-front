@@ -6,24 +6,24 @@
             <Row :gutter="20">
                 <Col span="6">
                 <Form-item label="从事工程">
-                    <Select v-model="project" size="large" placeholder="选择工程">
+                    <Select v-model="project" placeholder="选择工程">
                         <Option v-for="item in cityList" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>
                 </Form-item>
                 </Col>
                 <Col span="6">
                 <Form-item label="卡号">
-                    <Input v-model="cardId" size="large" placeholder="输入卡号" clearable></Input>
+                    <Input v-model="cardId" placeholder="输入卡号" clearable></Input>
                 </Form-item>
                 </Col>
                 <Col span="6">
                 <Form-item label="姓名">
-                    <Input v-model="staffName" size="large" placeholder="输入姓名" clearable></Input>
+                    <Input v-model="staffName" placeholder="输入姓名" clearable></Input>
                 </Form-item>
                 </Col>
                 <Col span="6">
                 <Form-item>
-                    <Button class="search" type="primary" shape="circle" icon="ios-search" @click="searchByParams">开始搜索</Button>
+                    <Button type="primary" shape="circle" icon="ios-search" @click="searchByParams">开始查询</Button>
                 </Form-item>
                 </Col>
             </Row>
@@ -280,9 +280,6 @@ export default {
     text-align: center;
     margin: 10px;
     padding: 3px;
-}
-.search{
-    width: 60%
 }
 .page{
     margin-top: 20px;

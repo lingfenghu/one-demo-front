@@ -53,7 +53,22 @@ export const asyncRoutes = {
         path: 'stafflist',
         name: 'stafflist',
         component: () => import('../views/StaffList.vue')
-    }
+    },
+    'modify': {
+        path: 'modify',
+        name: 'modify',
+        component: () => import('../views/Modify.vue')
+    },
+    'genderstat': {
+        path: 'genderstat',
+        name: 'genderstat',
+        component: () => import('../views/GenderStat.vue')
+    },
+    'joblist': {
+        path: 'joblist',
+        name: 'joblist',
+        component: () => import('../views/JobList.vue')
+    },
 }
 
 const createRouter = () => new Router({

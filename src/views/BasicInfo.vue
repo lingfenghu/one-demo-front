@@ -1,7 +1,9 @@
 <template>
-    <div id = 'basicinfo'>
+    <div class = 'basicinfo'>
+        <div class="layout-content">
         <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
             <h3>基本信息</h3>
+            <!-- prop动态验证 -->
             <Form-item prop="staffName" label="姓名">
                 <Input type="text" v-model="form.staffName" placeholder="姓名">
                     <Icon type="ios-person-outline" slot="prepend"></Icon>
@@ -49,8 +51,6 @@
                 <Button type="primary" @click="handleSubmit('form')">提交</Button>
             </Form-item>
         </Form>
-        <div class="layout-copy">
-            2019-202x &copy; hulingfeng
         </div>
     </div>
 </template>
@@ -103,25 +103,45 @@ export default {
             let that = this
             this.$refs[name].validate((valid) => {
                 if (valid) {
-                    that.axios({
-                        method: 'post',
-                        url: '/staff/',
-                        data: {
-                            staffName: this.form.staffName,
-                            sex: this.form.sex,
-                            identityId: this.form.identityId,
-                            jobGrade: this.form.jobGrade,
-                            tel: this.form.tel,
-                            cardId: this.form.cardId,
-                            salaryCardId: this.form.salaryCardId,
-                        }
-                    }).then(function (response) {
-                        console.log(response)
-                    });
-                    this.$Message.success('提交成功!');
+                    if(this.infoGet!=null){
+                        that.axios({
+                            method: 'put',
+                            url: '/staff',
+                            data: {
+                                staffId: infoGet.staffId,
+                                staffName: this.form.staffName,
+                                sex: this.form.sex,
+                                identityId: this.form.identityId,
+                                jobGrade: this.form.jobGrade,
+                                tel: this.form.tel,
+                                cardId: this.form.cardId,
+                                salaryCardId: this.form.salaryCardId,
+                            }
+                        }).then(function (response) {
+                            console.log(response)
+                        });
+                        this.$Message.success('修改提交成功!')
+                    }else{
+                        that.axios({
+                            method: 'post',
+                            url: '/staff',
+                            data: {
+                                staffName: this.form.staffName,
+                                sex: this.form.sex,
+                                identityId: this.form.identityId,
+                                jobGrade: this.form.jobGrade,
+                                tel: this.form.tel,
+                                cardId: this.form.cardId,
+                                salaryCardId: this.form.salaryCardId,
+                            }
+                        }).then(function (response) {
+                            console.log(response)
+                        });
+                        this.$Message.success('新增提交成功!')
+                    }
+                    
                 } else {
                     this.$Message.error('表单验证失败!');
-
                 }
             })
         }
@@ -129,16 +149,24 @@ export default {
     mounted: function () {
         this.$nextTick(function () {
             console.log(this.infoGet)
-            this.form = this.infoGet
+            if(this.infoGet!=null){
+                console.log("33333333333")
+                this.form = this.infoGet
+                
+            }
+            
         })
     }
 }
 </script>
 
 <style scoped>
-.layout-copy{
-    text-align: center;
-    padding: 10px 0 20px;
-    color: #9ea7b4;
+.layout-content{
+    min-height: 200px;
+    margin: 15px;
+    overflow: hidden;
+    
+    background: #fff;
+    border-radius: 4px;
 }
 </style>

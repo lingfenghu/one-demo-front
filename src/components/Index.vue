@@ -121,7 +121,11 @@
                         <Spin size="large"></Spin>
                     </div>
                 </div>
+                <div class="layout-copy">
+                    2019-202x &copy; hulingfeng
+                </div>
             </div>
+            
         </section>
     </div>
 </template>
@@ -670,6 +674,11 @@ a {
     width: 100%;
     background: #eee;
     padding: 10px 12px;
+}
+.layout-copy{
+    text-align: center;
+    padding: 15px 0 10px;
+    color: #9ea7b4;
 }
 .view-c {
     position: relative;

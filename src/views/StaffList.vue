@@ -6,7 +6,7 @@
             <Row :gutter="20">
                 <Col span="6">
                 <Form-item label="从事工程">
-                    <Select v-model="staffForm.project" placeholder="选择工程">
+                    <Select v-model="staffForm.project" placeholder="选择工程" clearable>
                         <Option v-for="item in projectList" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>
                 </Form-item>
@@ -52,7 +52,7 @@ export default {
                 cardId: '',
                 staffName: ''
             },
-            projectList: '',
+            projectList: [],
             columns: [
                 {
                     title: '序号',
@@ -130,7 +130,6 @@ export default {
     },
     methods: {
         update (row) {
-            // console.log(row)
             this.$router.push({
                 //这里写要跳转的路径
                 path: '/entireinfo',
@@ -149,11 +148,20 @@ export default {
                 }
             }).then((response) =>{
                 console.log(response);
-                if(200 === response.data.code){
-                    this.initTable()
-                }
-            }).catch((error) =>{
-                console.log(error);
+                this.initTable()
+            })
+        },
+        getProjectList(){
+            this.projectList = []
+            this.axios.get('staff/projects')
+            .then((response) => {
+                console.log(response)
+                response.data.object.forEach((item)=>{
+                    var temp = {}
+                    temp.label = item
+                    temp.value = item
+                    this.projectList.push(temp);
+                })
             })
         },
         search(){
@@ -168,6 +176,7 @@ export default {
             this.initTable()
         },
         initTable(){
+            this.getProjectList();
             this.axios.get('/staff', {
                 params: {
                     project: this.staffForm.project,
@@ -179,27 +188,21 @@ export default {
             }).then((response) =>{
                 console.log(response);
                 var index = 0;
-                if(200 === response.data.code){
-                    this.total = response.data.object.total
-                    this.pageNum = response.data.object.pageNum
-                    this.pageSize = response.data.object.pageSize
-                    response.data.object.list.forEach((item)=>{
-                        index++
-                        item.index = (this.pageNum-1)*this.pageSize+index
-                        if(item.sex === 0){
-                            item.sex = '保密'
-                        }else if(item.sex === 1){
-                            item.sex = '女'
-                        }else{
-                            item.sex = '男'
-                        }
-                    })
-                    this.tableData = response.data.object.list
-                }else{
-                    this.$Message.error('数据查询失败',5);
-                }
-            }).catch(function (error) {
-                console.log(error);
+                this.total = response.data.object.total
+                this.pageNum = response.data.object.pageNum
+                this.pageSize = response.data.object.pageSize
+                response.data.object.list.forEach((item)=>{
+                    index++
+                    item.index = (this.pageNum-1)*this.pageSize+index
+                    if(item.sex === 0){
+                        item.sex = '保密'
+                    }else if(item.sex === 1){
+                        item.sex = '女'
+                    }else{
+                        item.sex = '男'
+                    }
+                })
+                this.tableData = response.data.object.list
             })
         }
     },

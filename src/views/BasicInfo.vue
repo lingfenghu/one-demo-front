@@ -34,13 +34,17 @@
                     </Col>
                     <Col span="8">
                         <Form-item prop="avatar" label="头像">
-                            <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 80px" height="112px">
-                            <!-- <Input prefix="ios-image" class="avatarImg" icon="transgender" type="file" v-model="basicForm.avatar"> -->
+                            <Upload
+                                class="avatar-upload"
+                                :before-upload="handleUpload"
+                                action="//jsonplaceholder.typicode.com/posts/">
+                                <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 75px" height="105px"></img>
+                            </Upload>
                         </Form-item>
                     </Col>
                 </Row>
             </div>
-            <hr>
+            <Divider />
             <div>
                 <h3>其他信息</h3>
                 <Row>
@@ -73,6 +77,8 @@
                     <Col span="24">
                         <Form-item>
                             <Button type="primary" @click="handleSubmit('form')">提交</Button>
+                            <Button @click="handleReset('form')" style="margin-left: 15px">重置</Button>
+
                         </Form-item>
                     </Col>
                     
@@ -89,20 +95,13 @@ export default {
     data () {
         return {
             basicForm: {
-                // staffName: '',
-                // sex: "",
-                // identityId: '',
-                // jobGrade: '',
-                // tel: '',
-                // cardId: '',
-                // salaryCardId: '',
-                staffName: 'aaa',
-                sex: '1',
-                identityId: '1234567890',
-                jobGrade: '教师资格一级',
-                tel: '12345678999',
-                cardId: 'Y0000006',
-                salaryCardId: '3700',
+                staffName: '',
+                sex: '',
+                identityId: '',
+                jobGrade: '',
+                tel: '',
+                cardId: '',
+                salaryCardId: '',
             },
             ruleValidate: {
                 staffName: [
@@ -113,7 +112,6 @@ export default {
                 ],
                 identityId: [
                     { required: true, message: '请填写身份证号', trigger: 'blur' },
-                    // { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
                 ],
                 jobGrade: [
                     { required: true, message: '请填写从业等级', trigger: 'blur' }
@@ -129,69 +127,34 @@ export default {
                 ],
             },
             avatarUrl: '',
-            
         }
     },
     methods: {
         handleSubmit(form) {
             this.$refs[form].validate((valid) => {
                 if (valid) {
-                    console.log(this.basicForm)
                     this.axios({
                         method: 'post',
                         url: '/staff',
                         data: this.basicForm
-                        // {
-                        //     staffName: this.form.staffName,
-                        //     sex: this.form.sex,
-                        //     identityId: this.form.identityId,
-                        //     jobGrade: this.form.jobGrade,
-                        //     tel: this.form.tel,
-                        //     cardId: this.form.cardId,
-                        //     salaryCardId: this.form.salaryCardId,
-                        // }
-                    }).then(function (response) {
-                        console.log(response)
-
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                    // this.$Message.success('新增人员基础信息提交成功!')
-
-                    //     that.axios({
-                    //         method: 'put',
-                    //         url: '/staff',
-                    //         data: {
-                    //             staffId: infoGet.staffId,
-                    //             staffName: this.form.staffName,
-                    //             sex: this.form.sex,
-                    //             identityId: this.form.identityId,
-                    //             jobGrade: this.form.jobGrade,
-                    //             tel: this.form.tel,
-                    //             cardId: this.form.cardId,
-                    //             salaryCardId: this.form.salaryCardId,
-                    //         }
-                    //     }).then(function (response) {
-                    //         console.log(response)
-                    //     });
-                    //     this.$Message.success('修改提交成功!')
-                    // }else{
-                    //     
-                    // }
-                    
+                    }).then((response) => {
+                        //新增成功后清空表单数据
+                        this.handleReset(form)
+                        this.$Message.success('信息提交成功');
+                    })                    
                 } else {
                     this.$Message.error('表单验证失败!');
                 }
             })
+        },
+        handleReset (form) {
+            this.$refs[form].resetFields();
         }
     },
     mounted: function () {
+        //页面加载完成后函数
         this.$nextTick(function () {
-            console.log(this.infoGet)
-            // if(this.infoGet!=null){
-            //     console.log("33333333333")
-            //     this.form = this.infoGet
-            // }
+
         })
     }
 }
@@ -209,11 +172,4 @@ export default {
     width: 80%;
     margin-bottom: 3%
 }
-hr{
-    margin-bottom: 3%
-}
-/* .avatarImg{
-    width: 200px;
-    height: 400px;
-} */
 </style>

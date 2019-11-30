@@ -119,16 +119,14 @@ export default {
         update (newJob) {
             this.axios.put('/job',newJob).then((response) =>{
                 console.log(response)
-                if(200 === response.data.code){
-                    setTimeout(() => {
-                        this.updateModal = false;
-                    }, 1000);
-                    this.$Modal.success({
-                        title: '修改成功',
-                        content: '内容已成功提交'
-                    });
-                    this.initTable()
-                }
+                setTimeout(() => {
+                    this.updateModal = false;
+                }, 1000);
+                this.$Modal.success({
+                    title: '修改成功',
+                    content: '内容已成功提交'
+                });
+                this.initTable()
             }).catch((error) =>{
                 console.log(error);
                 this.$Modal.error({
@@ -174,7 +172,7 @@ export default {
                 }
             }).then((response) =>{
                 var index =0;
-                if(200 === response.data.code){
+                // if(200 === response.data.code){
                     this.total = response.data.object.total
                     this.pageNum = response.data.object.pageNum
                     this.pageSize = response.data.object.pageSize
@@ -183,12 +181,9 @@ export default {
                         item.index = (this.pageNum-1)*this.pageSize+index
                     })
                     this.tableData = response.data.object.list
-                }else{
-                    this.$Message.error('数据删除失败',5);
-                }
-            }).catch((error) => {
-                console.log(error);
-                this.$Message.error('请求失败',5);
+                // }else{
+                //     this.$Message.error('数据删除失败',5);
+                // }
             })
         }
     },

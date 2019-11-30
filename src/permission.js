@@ -2,8 +2,6 @@ import router from './router'
 import store from './store'
 import { menusToRoutes, resetTokenAndClearUser } from './utils'
 import { LoadingBar } from 'iview'
-import axios from 'axios'
-
 // 是否有菜单数据
 let hasMenus = false
 router.beforeEach(async (to, from, next) => {

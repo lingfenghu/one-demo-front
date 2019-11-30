@@ -24,7 +24,7 @@
                 </Row>
                 <p class="error">{{codeError}}</p>
             </div>
-            <Button :loading="isShowLoading" class="submit" type="primary" @click="submit">登录</Button>
+            <Button :loading="isShowLoading" class="submit" type="primary" @click="handleSubmit">登录</Button>
             <p class="account"><span @click="register">注册账号</span> | <span @click="forgetPwd">忘记密码</span></p>
         </div>
     </div>
@@ -59,25 +59,25 @@ export default {
     },
     methods: {
         verifyAccount(e) {
-            if (this.username !== 'admin') {
-                this.usernameError = '账号为admin'
-            } else {
-                this.usernameError = ''
-            }
+            // if (this.username !== 'admin') {
+            //     this.usernameError = '账号为admin'
+            // } else {
+            //     this.usernameError = ''
+            // }
         },
         verifyPwd(e) {
-            if (this.pwd !== 'admin') {
-                this.pwdError = '密码为admin'
-            } else {
-                this.pwdError = ''
-            }
+            // if (this.pwd !== 'admin') {
+            //     this.pwdError = '密码为admin'
+            // } else {
+            //     this.pwdError = ''
+            // }
         },
         verifyCode(e) {
-            if (this.code !== '') {
-                this.codeError = '验证码无需填入'
-            } else {
-                this.codeError = ''
-            }
+            // if (this.code !== '') {
+            //     this.codeError = '验证码无需填入'
+            // } else {
+            //     this.codeError = ''
+            // }
         },
         getImgCode(){
             let that = this
@@ -107,56 +107,24 @@ export default {
         forgetPwd() {
             console.log('忘记密码')
         },
-        submit() {
-            let that = this
+        handleSubmit() {
             this.axios.post('/user/login', {
                 username: this.username,
                 password: this.pwd
-            })
-            .then(function (response) {
+            }).then((response) => {
                 console.log(response);
                 if(200 === response.data.code){
-                    that.isShowLoading = true
+                    this.isShowLoading = true
                     // 登陆成功 设置用户信息
-                    localStorage.setItem('userImg', 'https://avatars3.githubusercontent.com/u/22117876?s=460&v=4')
-                    localStorage.setItem('userName', '小明')
-                    // 登陆成功 假设这里是后台返回的 token
+                    localStorage.setItem('userImg', '')
+                    localStorage.setItem('userName', this.username)
+                    // 登陆成功 存储后台返回的 token
                     localStorage.setItem('token', response.data.object)
-                    that.$router.push({path: that.redirect || '/'})
+                    this.$router.push({path: this.redirect || '/'})
                 }else{
-                    if(401 === response.data.code){
-                        localStorage.removeItem('token')
-                        that.$router.push('/login')
-                    }
-                    // if (this.username !== 'admin') {
-                    //     this.usernameError = '账号为admin'
-                    // } 
-                    // if (this.pwd !== 'admin') {
-                    //     this.pwdError = '密码为admin'
-                    // } 
+                    that.$router.push('/login')
                 }
-                
             })
-            .catch(function (error) {
-                console.log(error);
-            });
-            //无验证
-            if (this.username === 'admin' && this.pwd === 'admin') {
-                this.isShowLoading = true
-                // // 登陆成功 设置用户信息
-                // localStorage.setItem('userImg', 'https://avatars3.githubusercontent.com/u/22117876?s=460&v=4')
-                // localStorage.setItem('userName', '小明')
-                // 登陆成功 假设这里是后台返回的 token
-                // localStorage.setItem('token', 'i_am_token')
-                // this.$router.push({path: this.redirect || '/'})
-            } else {
-                // if (this.username !== 'admin') {
-                //     this.usernameError = '账号为admin'
-                // } 
-                // if (this.pwd !== 'admin') {
-                //     this.pwdError = '密码为admin'
-                // } 
-            }
         }
     },
 }

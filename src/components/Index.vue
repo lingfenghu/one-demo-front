@@ -56,14 +56,12 @@
                     </div>
                     <div class="h-right">
                         <!-- 消息 -->
-                        <div class="notice-c" @click="info" title="查看新消息">
+                        <!-- <div class="notice-c" @click="info" title="查看新消息">
                             <div :class="{newMsg: hasNewMsg}"></div>
                             <Icon type="ios-notifications-outline" />
-                        </div>
+                        </div> -->
                         <!-- 用户头像 -->
-                        <div class="user-img-c">
-                            <img :src="userImg">
-                        </div>
+                        <Avatar class="user-img-c" src="" icon="ios-person" :style="{background: avatarColor}"></Avatar>
                         <!-- 下拉菜单 -->
                         <Dropdown trigger="click" @on-click="userOperate" @on-visible-change="showArrow">
                             <div class="pointer">
@@ -73,9 +71,9 @@
                             </div>
                             <DropdownMenu slot="list">
                                 <!-- name标识符 -->
-                                <DropdownItem name="1">修改密码</DropdownItem>
-                                <DropdownItem name="2">基本资料</DropdownItem>
-                                <DropdownItem divided  name="3">退出登陆</DropdownItem>
+                                <DropdownItem name="1">基本资料</DropdownItem>
+                                <DropdownItem name="2">修改密码</DropdownItem>
+                                <DropdownItem divided name="3">退出登陆</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -132,25 +130,19 @@
 
 <script>
 import { resetTokenAndClearUser } from '../utils'
-
 export default {
     name: 'index',
     data () {
         return {
-            // 用于储存页面路径
-            paths: {},
-            // 当前显示页面
-            currentPage: '',
+            paths: {},// 用于储存页面路径
+            currentPage: '',// 当前显示页面
             openMenus: [], // 要打开的菜单名字 name属性
             menuCache: [], // 缓存已经打开的菜单
             showLoading: false, // 是否显示loading
             hasNewMsg: true, // 是否有新消息
             isShowRouter: true,
-            msgNum: '10', // 新消息条数
-            // 标签栏         标签标题     路由名称
-            // 数据格式 {text: '首页', name: 'home'}
-            // 用于缓存打开的路由 在标签栏上展示
-            tagsArry: [], 
+            // msgNum: '10', // 新消息条数
+            tagsArry: [], // 标签栏 标签标题 路由名称 数据格式 {text: '首页', name: 'home'} 用于缓存打开的路由 在标签栏上展示 
             arrowUp: false, // 用户详情向上箭头
             arrowDown: true, // 用户详情向下箭头
             isShowAsideTitle: true, // 是否展示侧边栏内容
@@ -161,37 +153,41 @@ export default {
             crumbs: '主页',
             userName: '',
             userImg: '',
+            avatarColor: '#00a2ae'
         }
     },
     created() {
         // 已经为ajax请求设置了loading 请求前自动调用 请求完成自动结束
         // 添加请求拦截器
-        this.$axios.interceptors.request.use(config => {
+        this.axios.interceptors.request.use(config => {
             console.log("start")
             this.showLoading = true
             // 在发送请求之前做些什么
+            config.headers.Authorization = localStorage.getItem("token")
+            console.log(localStorage.getItem("token"))
             return config
         }, error => {
             this.showLoading = false
             // 对请求错误做些什么
+            this.$Message.error('请求错误，服务器可能崩溃了')
             return Promise.reject(error)
         })
         // 添加响应拦截器
-        this.$axios.interceptors.response.use(response => {
+        this.axios.interceptors.response.use(response => {
             // 可以在这里对返回的数据进行错误处理 如果返回的 code 不对 直接报错或退出登陆
             // 就可以省去在业务代码里重复判断
-            if (response.code != 200) {
-                this.$Message.error(response.msg)
+            this.showLoading = false
+            if (200 != response.data.code) {
+                this.$Message.error(response.data.msg)
                 return Promise.reject()
             }else{
-                this.$Message.success(response.msg)
+                // this.$Message.success(response.data.msg)
+                return response
             }
-            this.showLoading = false
-            const res = response.data
-            return res
         }, error => {
             this.showLoading = false
             // 对响应错误做点什么
+            // this.$Message.error('响应错误，服务器可能崩溃了')
             return Promise.reject(error)
         })
     },
@@ -203,7 +199,6 @@ export default {
             text: this.nameToTitle[name],
             name: name
         })
-        
         // 根据路由打开对应的菜单栏
         this.openMenus = this.getMenus(name)
         this.$nextTick(() => {
@@ -228,7 +223,6 @@ export default {
                 this.crumbs = '404'
                 return
             }
-
             if (!this.keepAliveData.includes(name)) {
                 // 如果标签超过8个 则将第一个标签删除
                 if (this.tagsArry.length == 8) {
@@ -236,7 +230,6 @@ export default {
                 }
                 this.tagsArry.push({name, text: this.nameToTitle[name]})
             }
-
             setTimeout(() => {
                 this.crumbs = this.paths[name]
             }, 0)
@@ -258,7 +251,6 @@ export default {
             this.menuItems.forEach(e => {
                 this.processNameToTitle(obj, e)
             })
-
             return obj
         },
     },
@@ -296,7 +288,6 @@ export default {
                 }
             }
         },
-
         monitorWindowSize() {
             let w = document.documentElement.clientWidth || document.body.clientWidth
             if (w < 1300) {
@@ -336,12 +327,12 @@ export default {
         userOperate(name) {
             switch(name) {
                 case '1':
-                    // 修改密码
-                    this.gotoPage('password')
+                    // 基本资料
+                    // this.gotoPage('userinfo')
                     break
                 case '2':
-                    // 基本资料
-                    this.gotoPage('userinfo')
+                    // 修改密码
+                    // this.gotoPage('password')
                     break
                 case '3':
                     resetTokenAndClearUser()

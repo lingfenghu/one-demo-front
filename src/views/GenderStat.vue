@@ -151,9 +151,10 @@ export default {
                     }
                 });
                 
-            }).catch(function (error) {
-                console.log(error);
-            });
+            })
+            // .catch(function (error) {
+            //     console.log(error);
+            // });
 
             // var echarts = require('echarts');
             // 基于准备好的dom，初始化echarts实例

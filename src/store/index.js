@@ -18,12 +18,12 @@ const store = new Vuex.Store({
                 text: '基本信息及制卡',
                 type: 'md-card',
                 children: [
-                    {
-                        type: 'ios-grid',
-                        name: 't1',
-                        text: '表格',
-                        hidden: true, // 隐藏此菜单 可以通过在地址栏上输入对应的 URL 来显示页面
-                    },
+                    // {
+                    //     type: 'ios-grid',
+                    //     name: 't1',
+                    //     text: '表格',
+                    //     hidden: true, // 隐藏此菜单 可以通过在地址栏上输入对应的 URL 来显示页面
+                    // },
                     {
                         text: '人员数据采集',
                         type: 'ios-person',
@@ -38,35 +38,38 @@ const store = new Vuex.Store({
                         text: '人员信息修改',
                         type: 'md-create',
                         name: 'entireinfo'
-                    },
-                    {
-                        text: '三级菜单',
-                        type: 'ios-paper',
-                        hidden: false,
-                        children: [
-                            {
-                                type: 'ios-notifications-outline',
-                                name: 'msg',
-                                text: '查看消息'
-                                
-                            },
-                            {
-                                type: 'md-lock',
-                                name: 'password',
-                                text: '修改密码'
-                            },
-                            {
-                                type: 'md-person',
-                                name: 'userinfo',
-                                text: '基本资料',
-                            }
-                        ]
                     }
+                    // {
+                    //     text: '三级菜单',
+                    //     type: 'ios-paper',
+                    //     hidden: true,
+                    //     children: [
+                    //         {
+                    //             type: 'ios-notifications-outline',
+                    //             hidden: true,
+                    //             name: 'msg',
+                    //             text: '查看消息'
+                                
+                    //         },
+                    //         {
+                    //             type: 'md-lock',
+                    //             hidden: true,
+                    //             name: 'password',
+                    //             text: '修改密码'
+                    //         },
+                    //         {
+                    //             type: 'md-person',
+                    //             hidden: true,
+                    //             name: 'userinfo',
+                    //             text: '基本资料',
+                    //         }
+                    //     ]
+                    // }
                 ]
             },
             {
                 text: '分析统计管理',
-                type: 'ios-paper',
+                type: 'ios-stats',
                 children: [
                     {
                         text: '性别统计',
@@ -101,14 +104,14 @@ const store = new Vuex.Store({
         ],
     },
     mutations: {
-        setToken(state,token){
-            state.token = token
-            sessionStorage.token = token
-        },
-        removeToken(state){
-            state.token = ''
-            sessionStorage.removeItem("token")
-        },
+        // setToken(state,token){
+        //     state.token = token
+        //     sessionStorage.token = token
+        // },
+        // removeToken(state){
+        //     state.token = ''
+        //     sessionStorage.removeItem("token")
+        // },
         setMenus(state, items) {
             state.menuItems = [...items]
         },

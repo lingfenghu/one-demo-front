@@ -1,7 +1,6 @@
 <template>
     <div>
-        首页
-        <input type="text">
+        
     </div>
 </template>
 
@@ -12,5 +11,7 @@ export default {
 </script>
 
 <style scoped>
-
+div{
+    height: 500px;
+}
 </style>

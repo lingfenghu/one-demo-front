@@ -178,15 +178,12 @@ export default {
                 if (valid) {
                     console.log(this.entireForm)
                     this.axios.put('/staff',this.entireForm)
-                    .then(function (response) {
-                        // console.log(response)
-                        // if(200 === response.data.code){
-
-                        // }
+                    .then((response) => {
+                        this.$Message.success('信息提交成功,3秒后将关闭该修改页面');
+                        // setTimeout(() => {
+                            
+                        // }, 1000);
                     })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
                 }else{
                     this.$Message.error('表单验证失败!');
                 }
@@ -215,8 +212,6 @@ export default {
                 }
                 
             }
-            console.log(this.$route.query.info)
-            console.log(this.staff)
         })
     },
     watch:{

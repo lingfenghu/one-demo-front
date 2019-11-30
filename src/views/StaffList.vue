@@ -1,42 +1,39 @@
 
 <template>
     <div>
-        <div class="search-tab">
-            <Form :model="formItem" :label-width="80">
+        <div class="search-bar">
+            <Form :model="staffForm" :label-width="100">
             <Row :gutter="20">
                 <Col span="6">
                 <Form-item label="从事工程">
-                    <Select v-model="project" placeholder="选择工程">
-                        <Option v-for="item in cityList" :value="item.value" :key="item">{{ item.label }}</Option>
+                    <Select v-model="staffForm.project" placeholder="选择工程">
+                        <Option v-for="item in projectList" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>
                 </Form-item>
                 </Col>
                 <Col span="6">
                 <Form-item label="卡号">
-                    <Input v-model="cardId" placeholder="输入卡号" clearable></Input>
+                    <Input v-model="staffForm.cardId" placeholder="输入卡号" clearable></Input>
                 </Form-item>
                 </Col>
                 <Col span="6">
                 <Form-item label="姓名">
-                    <Input v-model="staffName" placeholder="输入姓名" clearable></Input>
+                    <Input v-model="staffForm.staffName" placeholder="输入姓名" clearable></Input>
                 </Form-item>
                 </Col>
                 <Col span="6">
                 <Form-item>
-                    <Button type="primary" shape="circle" icon="ios-search" @click="searchByParams">开始查询</Button>
+                    <Button type="primary" shape="circle" icon="ios-search" @click="search">开始查询</Button>
                 </Form-item>
                 </Col>
             </Row>
             </Form>
         </div>
         <div>
-            <Table stripe :columns="columns" :data="data"></Table>
+            <Table stripe :columns="columns" :data="tableData"></Table>
         </div>
         <div>
-            <Page v-if="startRow!=0" class="page" :total="total" :current="pageNum"  :page-size="pageSize" show-total show-sizer show-elevator @on-change="handlePage" @on-page-size-change='handlePageSize'></Page>
-        </div>
-        <div class="layout-copy">
-            2019-202x &copy; hulingfeng
+            <Page v-if="total!=0" class="page" :total="total" :current="pageNum"  :page-size="pageSize" show-total show-sizer show-elevator @on-change="handlePage" @on-page-size-change='handlePageSize'></Page>
         </div>
     </div>
 
@@ -47,12 +44,15 @@ export default {
     name: 'stafflist',
     data () {
         return {
-            project: '',
-            cardId: '',
-            staffName: '',
             total: '',
             pageNum: '',
             pageSize: '',
+            staffForm: {
+                project: '',
+                cardId: '',
+                staffName: ''
+            },
+            projectList: '',
             columns: [
                 {
                     title: '序号',
@@ -125,13 +125,16 @@ export default {
                     }
                 },
             ],
-            data: []
+            tableData: [],
         }
     },
     methods: {
         update (row) {
+            // console.log(row)
             this.$router.push({
-            path: '/basicinfo',              //这里写要跳转的路径
+                //这里写要跳转的路径
+                path: '/entireinfo',
+                name: 'entireinfo',
                 query: {
                     info: row
                 }
@@ -144,116 +147,54 @@ export default {
                 params: {
                     staffId: row.staffId
                 }
-            })
-            .then((response) =>{
-                console.log(response)
-                if(200 === response.data.code){
-                    this.initTable()
-                }else{
-                    this.$Message.error('数据删除失败',5);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            })
-        },
-        searchByParams(){
-            this.axios.get('/staff', {
-                params: {
-                    project: this.project,
-                    cardId: this.cardId,
-                    staffName: this.staffName,
-                    pageNum: this.pageNum,
-                    pageSize: this.pageSize,
-                }
-            }).then((response) =>{
-                var index =0;
-                if(200 === response.data.code){
-                    this.total = response.data.object.total
-                    response.data.object.list.forEach((item)=>{
-                        index++
-                        item.index = (this.pageNum-1)*this.pageSize+index
-                    })
-                    this.data = response.data.object.list
-                }else{
-                    this.$Message.error('数据查询失败',5);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            })
-        },
-        handlePage(value){
-            this.axios.get('/staff', {
-                params: {
-                    pageNum: value,
-                }
             }).then((response) =>{
                 console.log(response);
-                var index =0;
                 if(200 === response.data.code){
-                    // this.data = response.data.object.list
-                    this.total = response.data.object.total
-                    this.pageNum = response.data.object.pageNum
-                    this.pageSize = response.data.object.pageSize
-                    response.data.object.list.forEach((item)=>{
-                        console.log(item)
-                        index++
-                        item.index = (this.pageNum-1)*this.pageSize+index
-                    })
-                    this.data = response.data.object.list
-                }else{
-                    this.$Message.error('数据查询失败',5);
+                    this.initTable()
                 }
-            }).catch(function (error) {
+            }).catch((error) =>{
                 console.log(error);
             })
         },
+        search(){
+            this.initTable();
+        },
+        handlePage(value){
+            this.pageNum = value
+            this.initTable()
+        },
         handlePageSize(value){
-            this.axios.get('/staff', {
-                params: {
-                    pageSize: value,
-                }
-            }).then((response) =>{
-                // console.log(response);
-                var index = 0;
-                if(200 === response.data.code){
-                    // this.data = response.data.object.list
-                    this.total = response.data.object.total
-                    this.pageNum = response.data.object.pageNum
-                    this.pageSize = response.data.object.pageSize
-                    response.data.object.list.forEach((item)=>{
-                        console.log(item)
-                        index++
-                        item.index = (this.pageNum-1)*this.pageSize+index
-                    })
-                    this.data = response.data.object.list
-                }else{
-                    this.$Message.error('数据查询失败',5);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            })
+            this.pageSize = value
+            this.initTable()
         },
         initTable(){
             this.axios.get('/staff', {
                 params: {
+                    project: this.staffForm.project,
+                    cardId: this.staffForm.cardId,
+                    staffName: this.staffForm.staffName,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                 }
             }).then((response) =>{
-                // console.log(response);
-                var index =0;
+                console.log(response);
+                var index = 0;
                 if(200 === response.data.code){
                     this.total = response.data.object.total
                     this.pageNum = response.data.object.pageNum
                     this.pageSize = response.data.object.pageSize
                     response.data.object.list.forEach((item)=>{
-                        // console.log(item)
                         index++
                         item.index = (this.pageNum-1)*this.pageSize+index
+                        if(item.sex === 0){
+                            item.sex = '保密'
+                        }else if(item.sex === 1){
+                            item.sex = '女'
+                        }else{
+                            item.sex = '男'
+                        }
                     })
-                    this.data = response.data.object.list
-
-
+                    this.tableData = response.data.object.list
                 }else{
                     this.$Message.error('数据查询失败',5);
                 }
@@ -271,18 +212,10 @@ export default {
 </script>
 
 <style scoped>
-.layout-copy{
+.search-bar{
     text-align: center;
-    padding: 10px 0 20px;
-    color: #9ea7b4;
-}
-.search-tab{
-    text-align: center;
-    margin: 10px;
-    padding: 3px;
 }
 .page{
-    margin-top: 20px;
-    
+    margin-top: 10px;
 }
 </style>

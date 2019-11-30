@@ -38,11 +38,11 @@ export default {
             updateModal: false,
             jobTypes: [
                 {
-                    value: '普通工种',
+                    value: '普通',
                     label: '普通工种'
                 },
                 {
-                    value: '特殊工种',
+                    value: '特殊',
                     label: '特殊工种'
                 }
             ],

@@ -1,55 +1,83 @@
 <template>
     <div class = 'basicinfo'>
         <div class="layout-content">
-        <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
-            <h3>基本信息</h3>
-            <!-- prop动态验证 -->
-            <Form-item prop="staffName" label="姓名">
-                <Input type="text" v-model="form.staffName" placeholder="姓名">
-                    <Icon type="ios-person-outline" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
-            <Form-item prop="identityId" label="身份证号">
-                <Input type="text" v-model="form.identityId" placeholder="身份证号">
-                    <Icon type="" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
-            <Form-item prop="sex" label="性别">
-                <Radio-group v-model="form.sex">
-                    <Radio label=1>女</Radio>
-                    <Radio label=2>男</Radio>
-                </Radio-group>
-            </Form-item>
-            <Form-item prop="avatar" label="头像">
-                <Input type="file" v-model="form.avatar">
-                    <Icon type="" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
+        <Form ref="form" :model="basicForm" :rules="ruleValidate" :label-width="100">
+            <div>
+                <h3>基本信息</h3>
+                <!-- prop动态验证 -->
+                <Row>
+                    <Col span="16">
+                        <Row>
+                            <Col span="12">
+                                <Form-item prop="staffName" label="姓名">
+                                    <Input prefix="ios-person"  class="form-item" type="text" v-model="basicForm.staffName" placeholder="姓名"></Input>
+                                </Form-item>
+                            </Col>
+                            <Col span="12">
+                                <Form-item prop="sex" label="性别">
+                                    <Radio-group class="form-item" v-model="basicForm.sex">
+                                        <Radio label=0>保密</Radio>
+                                        <Radio label=1>女</Radio>
+                                        <Radio label=2>男</Radio>
+                                    </Radio-group>
+                                </Form-item>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <Form-item prop="identityId" label="身份证号">
+                                    <Input class="form-item" type="text" v-model="basicForm.identityId" placeholder="身份证号">
+                                    </Input>
+                                </Form-item>
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col span="8">
+                        <Form-item prop="avatar" label="头像">
+                            <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 80px" height="112px">
+                            <!-- <Input prefix="ios-image" class="avatarImg" icon="transgender" type="file" v-model="basicForm.avatar"> -->
+                        </Form-item>
+                    </Col>
+                </Row>
+            </div>
             <hr>
-            <h3>其他信息</h3>
-            <Form-item prop="jobGrade" label="从业等级">
-                <Input type="text" v-model="form.jobGrade" placeholder="从业等级">
-                    <Icon type="ios-locked-outline" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
-            <Form-item prop="tel" label="手机号码">
-                <Input type="text" v-model="form.tel" placeholder="手机号码">
-                    <Icon type="iphone" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
-            <Form-item prop="cardId" label="卡号">
-                <Input type="text" v-model="form.cardId" placeholder="卡号">
-                    <Icon type="ios-locked-outline" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
-            <Form-item prop="salaryCardId" label="工资卡号">
-                <Input type="text" v-model="form.salaryCardId" placeholder="工资卡号">
-                    <Icon type="ios-locked-outline" slot="prepend"></Icon>
-                </Input>
-            </Form-item>
-            <Form-item>
-                <Button type="primary" @click="handleSubmit('form')">提交</Button>
-            </Form-item>
+            <div>
+                <h3>其他信息</h3>
+                <Row>
+                    <Col span="8">
+                        <Form-item prop="jobGrade" label="从业等级">
+                            <Input class="form-item" prefix="ios-podium-outline" type="text" v-model="basicForm.jobGrade" placeholder="从业等级"></Input>
+                        </Form-item>
+                    </Col>
+                    <Col span="8">
+                        <Form-item prop="tel" label="手机号码">
+                            <Input class="form-item" prefix="ios-phone-portrait" type="text" v-model="basicForm.tel" placeholder="手机号码"></Input>
+                        </Form-item>
+                    </Col>
+                    <Col span="8">
+                        <Form-item prop="cardId" label="卡号">
+                            <Input class="form-item" prefix="ios-card" type="text" v-model="basicForm.cardId" placeholder="卡号"></Input>
+                        </Form-item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="16">
+                    <Form-item prop="salaryCardId" label="工资卡号">
+                        <Input class="form-item" prefix="ios-card-outline" type="text" v-model="basicForm.salaryCardId" placeholder="工资卡号"></Input>
+                    </Form-item>
+                    </Col>
+                    <Col span="8">
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <Form-item>
+                            <Button type="primary" @click="handleSubmit('form')">提交</Button>
+                        </Form-item>
+                    </Col>
+                    
+                </Row>
+            </div>
         </Form>
         </div>
     </div>
@@ -60,14 +88,21 @@ export default {
     name: 'basicinfo',
     data () {
         return {
-            form: {
-                staffName: 'xiaohong',
-                sex: "1",
-                identityId: '360428199805224935',
-                jobGrade: '小学老师一级',
-                tel: '13225079670',
-                cardId: 'Y0000009',
-                salaryCardId: '0000 0000 0000 0000',
+            basicForm: {
+                // staffName: '',
+                // sex: "",
+                // identityId: '',
+                // jobGrade: '',
+                // tel: '',
+                // cardId: '',
+                // salaryCardId: '',
+                staffName: 'aaa',
+                sex: '1',
+                identityId: '1234567890',
+                jobGrade: '教师资格一级',
+                tel: '12345678999',
+                cardId: 'Y0000006',
+                salaryCardId: '3700',
             },
             ruleValidate: {
                 staffName: [
@@ -85,7 +120,6 @@ export default {
                 ],
                 tel: [
                     { required: true, message: '请填写手机号码', trigger: 'blur' },
-                    { type: 'string'}
                 ],
                 cardId: [
                     { required: true, message: '请填写卡号', trigger: 'blur' }
@@ -94,51 +128,56 @@ export default {
                     { required: true, message: '请填写工资卡号', trigger: 'blur' }
                 ],
             },
-            url: '',
-            infoGet: this.$route.query.info
+            avatarUrl: '',
+            
         }
     },
     methods: {
-        handleSubmit(name) {
-            let that = this
-            this.$refs[name].validate((valid) => {
+        handleSubmit(form) {
+            this.$refs[form].validate((valid) => {
                 if (valid) {
-                    if(this.infoGet!=null){
-                        that.axios({
-                            method: 'put',
-                            url: '/staff',
-                            data: {
-                                staffId: infoGet.staffId,
-                                staffName: this.form.staffName,
-                                sex: this.form.sex,
-                                identityId: this.form.identityId,
-                                jobGrade: this.form.jobGrade,
-                                tel: this.form.tel,
-                                cardId: this.form.cardId,
-                                salaryCardId: this.form.salaryCardId,
-                            }
-                        }).then(function (response) {
-                            console.log(response)
-                        });
-                        this.$Message.success('修改提交成功!')
-                    }else{
-                        that.axios({
-                            method: 'post',
-                            url: '/staff',
-                            data: {
-                                staffName: this.form.staffName,
-                                sex: this.form.sex,
-                                identityId: this.form.identityId,
-                                jobGrade: this.form.jobGrade,
-                                tel: this.form.tel,
-                                cardId: this.form.cardId,
-                                salaryCardId: this.form.salaryCardId,
-                            }
-                        }).then(function (response) {
-                            console.log(response)
-                        });
-                        this.$Message.success('新增提交成功!')
-                    }
+                    console.log(this.basicForm)
+                    this.axios({
+                        method: 'post',
+                        url: '/staff',
+                        data: this.basicForm
+                        // {
+                        //     staffName: this.form.staffName,
+                        //     sex: this.form.sex,
+                        //     identityId: this.form.identityId,
+                        //     jobGrade: this.form.jobGrade,
+                        //     tel: this.form.tel,
+                        //     cardId: this.form.cardId,
+                        //     salaryCardId: this.form.salaryCardId,
+                        // }
+                    }).then(function (response) {
+                        console.log(response)
+
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    // this.$Message.success('新增人员基础信息提交成功!')
+
+                    //     that.axios({
+                    //         method: 'put',
+                    //         url: '/staff',
+                    //         data: {
+                    //             staffId: infoGet.staffId,
+                    //             staffName: this.form.staffName,
+                    //             sex: this.form.sex,
+                    //             identityId: this.form.identityId,
+                    //             jobGrade: this.form.jobGrade,
+                    //             tel: this.form.tel,
+                    //             cardId: this.form.cardId,
+                    //             salaryCardId: this.form.salaryCardId,
+                    //         }
+                    //     }).then(function (response) {
+                    //         console.log(response)
+                    //     });
+                    //     this.$Message.success('修改提交成功!')
+                    // }else{
+                    //     
+                    // }
                     
                 } else {
                     this.$Message.error('表单验证失败!');
@@ -149,12 +188,10 @@ export default {
     mounted: function () {
         this.$nextTick(function () {
             console.log(this.infoGet)
-            if(this.infoGet!=null){
-                console.log("33333333333")
-                this.form = this.infoGet
-                
-            }
-            
+            // if(this.infoGet!=null){
+            //     console.log("33333333333")
+            //     this.form = this.infoGet
+            // }
         })
     }
 }
@@ -165,8 +202,18 @@ export default {
     min-height: 200px;
     margin: 15px;
     overflow: hidden;
-    
     background: #fff;
     border-radius: 4px;
 }
+.form-item{
+    width: 80%;
+    margin-bottom: 3%
+}
+hr{
+    margin-bottom: 3%
+}
+/* .avatarImg{
+    width: 200px;
+    height: 400px;
+} */
 </style>

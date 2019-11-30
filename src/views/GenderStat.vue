@@ -31,9 +31,6 @@
             </Form>
         </Row>
         <div id="chart" class="my-chart"></div>
-        <div class="layout-copy">
-            2019-202x &copy; hulingfeng & echarts
-        </div>
     </div>
 </template>
 
@@ -194,10 +191,5 @@ export default {
     width: 60%;
     height: 350px;
     margin: 2% 20%
-}
-.layout-copy{
-    text-align: center;
-    padding: 10px 0px 20px;
-    color: #9ea7b4;
 }
 </style>

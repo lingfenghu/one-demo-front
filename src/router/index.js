@@ -4,9 +4,9 @@ import store from '../store'
 
 Vue.use(Router)
 
-if(sessionStorage.getItem("token")){
-    store.commit("setToken",sessionStorage.getItem("token"))
-}
+// if(sessionStorage.getItem("token")){
+//     store.commit("setToken",sessionStorage.getItem("token"))
+// }
 
 const commonRoutes = [
     {
@@ -54,10 +54,10 @@ export const asyncRoutes = {
         name: 'stafflist',
         component: () => import('../views/StaffList.vue')
     },
-    'modify': {
-        path: 'modify',
-        name: 'modify',
-        component: () => import('../views/Modify.vue')
+    'entireinfo': {
+        path: 'entireinfo',
+        name: 'entireinfo',
+        component: () => import('../views/EntireInfo.vue')
     },
     'genderstat': {
         path: 'genderstat',
@@ -79,6 +79,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 router.beforeEach((to,from,next)=>{
+    // console.log(localStorage.getItem('token'))
     if(to.path === '/login'){
         next()
     }else{

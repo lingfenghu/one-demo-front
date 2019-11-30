@@ -1,33 +1,32 @@
 import Vue from 'vue'
 import App from './App'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import router from './router'
 import iView from 'iview'
-import axios from 'axios'
 import 'iview/dist/styles/iview.css'
 import './permission'
-import VueAxios from 'vue-axios'
-import Axios from 'axios'
 import echarts from 'echarts'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(iView)
+Vue.use(VueAxios, axios)
+// Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-Vue.use(iView)
-Vue.use(ElementUI)
-// Vue.use(echarts)
-Vue.use(VueAxios, axios)
-
 Vue.prototype.$echarts = echarts
 
 // 设置基础URL
 axios.defaults.baseURL = 'http://localhost:8080'
-// 设置请求超时时间
-// axios.defaults.timeout = 3000
+// 设置请求超时时间 5s
+axios.defaults.timeout = 5000
 // axios全局token
-Axios.defaults.headers.token = store.state.token
+axios.defaults.headers.token = store.state.token
 // 设置axios请求头
-// Axios.headers = {'Content-Type':'application/json;charset=UTF-8'}
+axios.headers = {'Content-Type':'application/json;charset=UTF-8'}
+
 
 // // 添加请求拦截器
 // axios.interceptors.request.use(function (config) {

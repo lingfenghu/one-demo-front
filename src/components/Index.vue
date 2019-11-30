@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div class="layout-copy">
-                    2019-202x &copy; hulingfeng
+                    2019-2020 &copy; hulingfeng
                 </div>
             </div>
             
@@ -167,6 +167,7 @@ export default {
         // 已经为ajax请求设置了loading 请求前自动调用 请求完成自动结束
         // 添加请求拦截器
         this.$axios.interceptors.request.use(config => {
+            console.log("start")
             this.showLoading = true
             // 在发送请求之前做些什么
             return config
@@ -179,11 +180,12 @@ export default {
         this.$axios.interceptors.response.use(response => {
             // 可以在这里对返回的数据进行错误处理 如果返回的 code 不对 直接报错或退出登陆
             // 就可以省去在业务代码里重复判断
-            // 例子
-            // if (res.code != 0) {
-            //     this.$Message.error(res.msg)
-            //     return Promise.reject()
-            // }
+            if (response.code != 200) {
+                this.$Message.error(response.msg)
+                return Promise.reject()
+            }else{
+                this.$Message.success(response.msg)
+            }
             this.showLoading = false
             const res = response.data
             return res

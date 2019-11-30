@@ -16,7 +16,7 @@ const store = new Vuex.Store({
             },
             {
                 text: '基本信息及制卡',
-                type: 'ios-paper',
+                type: 'md-card',
                 children: [
                     {
                         type: 'ios-grid',
@@ -26,42 +26,42 @@ const store = new Vuex.Store({
                     },
                     {
                         text: '人员数据采集',
-                        type: 'ios-paper',
+                        type: 'ios-person',
                         name: 'basicinfo'
                     },
                     {
                         text: '人员信息管理',
-                        type: 'ios-paper',
+                        type: 'ios-people',
                         name: 'stafflist'
                     },
                     {
                         text: '人员信息修改',
-                        type: 'ios-paper',
-                        name: 'modify'
+                        type: 'md-create',
+                        name: 'entireinfo'
                     },
-                    // {
-                    //     text: '三级菜单',
-                    //     type: 'ios-paper',
-                    //     hidden: true,
-                    //     children: [
-                    //         {
-                    //             type: 'ios-notifications-outline',
-                    //             name: 'msg',
-                    //             text: '查看消息'
+                    {
+                        text: '三级菜单',
+                        type: 'ios-paper',
+                        hidden: false,
+                        children: [
+                            {
+                                type: 'ios-notifications-outline',
+                                name: 'msg',
+                                text: '查看消息'
                                 
-                    //         },
-                    //         {
-                    //             type: 'md-lock',
-                    //             name: 'password',
-                    //             text: '修改密码'
-                    //         },
-                    //         {
-                    //             type: 'md-person',
-                    //             name: 'userinfo',
-                    //             text: '基本资料',
-                    //         }
-                    //     ]
-                    // }
+                            },
+                            {
+                                type: 'md-lock',
+                                name: 'password',
+                                text: '修改密码'
+                            },
+                            {
+                                type: 'md-person',
+                                name: 'userinfo',
+                                text: '基本资料',
+                            }
+                        ]
+                    }
                 ]
             },
             {
@@ -70,7 +70,7 @@ const store = new Vuex.Store({
                 children: [
                     {
                         text: '性别统计',
-                        type: 'ios-paper',
+                        type: 'ios-transgender',
                         name: 'genderstat'
                     },
                     {
@@ -89,11 +89,11 @@ const store = new Vuex.Store({
             },
             {
                 text: '系统管理',
-                type: 'ios-paper',
+                type: 'ios-settings',
                 children: [
                     {
                         text: '工种目录管理',
-                        type: 'ios-paper',
+                        type: 'ios-browsers-outline',
                         name: 'joblist'
                     }
                 ]

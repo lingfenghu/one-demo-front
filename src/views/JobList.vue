@@ -171,19 +171,16 @@ export default {
                     pageSize: this.pageSize,
                 }
             }).then((response) =>{
+                console.log(response)
                 var index =0;
-                // if(200 === response.data.code){
-                    this.total = response.data.object.total
-                    this.pageNum = response.data.object.pageNum
-                    this.pageSize = response.data.object.pageSize
-                    response.data.object.list.forEach((item)=>{
-                        index++
-                        item.index = (this.pageNum-1)*this.pageSize+index
-                    })
-                    this.tableData = response.data.object.list
-                // }else{
-                //     this.$Message.error('数据删除失败',5);
-                // }
+                this.total = response.data.object.total
+                this.pageNum = response.data.object.pageNum
+                this.pageSize = response.data.object.pageSize
+                response.data.object.list.forEach((item)=>{
+                    index++
+                    item.index = (this.pageNum-1)*this.pageSize+index
+                })
+                this.tableData = response.data.object.list
             })
         }
     },

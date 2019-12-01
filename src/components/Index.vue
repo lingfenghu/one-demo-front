@@ -160,7 +160,6 @@ export default {
         // 已经为ajax请求设置了loading 请求前自动调用 请求完成自动结束
         // 添加请求拦截器
         this.axios.interceptors.request.use(config => {
-            console.log("start")
             this.showLoading = true
             // 在发送请求之前做些什么
             config.headers.Authorization = localStorage.getItem("token")
@@ -187,7 +186,7 @@ export default {
         }, error => {
             this.showLoading = false
             // 对响应错误做点什么
-            // this.$Message.error('响应错误，服务器可能崩溃了')
+            this.$Message.error('响应错误，服务器可能崩溃了')
             return Promise.reject(error)
         })
     },

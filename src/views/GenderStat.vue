@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row class="search-tab">
-            <Form ref="formInline" :label-width="80">
+            <Form ref="formInline" :label-width="100">
             <Col span="6">
                 <Form-item label="工种" :model="queryForm">
                     <Select v-model="queryForm.jobType">
@@ -129,7 +129,8 @@ export default {
                 myChart.setOption({
                     title: { 
                         text: '人员男女性别比',
-                        textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+                        textStyle: {
+                            //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
                             fontFamily: 'Verdana',
                             fontSize: 20,
                             fontStyle: 'normal',
@@ -152,16 +153,6 @@ export default {
                 });
                 
             })
-            // .catch(function (error) {
-            //     console.log(error);
-            // });
-
-            // var echarts = require('echarts');
-            // 基于准备好的dom，初始化echarts实例
-            
-            // var myChart = this.echarts.init(document.getElementById('main'));
-            // 绘制图表
-            
         },
         handleSubmit(){
             this.draw()
@@ -185,9 +176,6 @@ export default {
     width: 50%;
     height: 50%;
 }
-/* .form-item{
-    width: 200px
-} */
 .my-chart{
     width: 60%;
     height: 350px;

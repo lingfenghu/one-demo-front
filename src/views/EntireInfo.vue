@@ -179,7 +179,7 @@ export default {
                     console.log(this.entireForm)
                     this.axios.put('/staff',this.entireForm)
                     .then((response) => {
-                        this.$Message.success('信息提交成功,3秒后将关闭该修改页面');
+                        this.$Message.success('信息提交成功');
                         // setTimeout(() => {
                             
                         // }, 1000);

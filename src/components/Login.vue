@@ -1,31 +1,41 @@
 <template>
-    <div class="login-vue" :style="bg">
+    <div class="login-vue" :style="login">
         <div class="container">
             <p class="title">WELCOME</p>
-            <div class="input-c">
-                <Input prefix="ios-contact" v-model="username" placeholder="用户名" clearable @on-blur="verifyAccount"/>
-                <p class="error">{{usernameError}}</p>
-            </div>
-            <div class="input-c">
-                <Input type="password" v-model="pwd" prefix="md-lock" placeholder="密码" clearable @on-blur="verifyPwd"/>
-                <p class="error">{{pwdError}}</p>
-            </div>
-            <div class="input-c">
+            <Form ref="form" :model="loginForm" :rules="ruleValidate">
                 <Row>
-                    <Col span="12">
-                        <Input type="text" v-model="code" prefix="heart" placeholder="验证码" clearable @on-blur="verifyCode"/>
-                        <p class="error">{{codeError}}</p>
-                    </Col>
-                    <Col span="12">
-                        <div class="block">
-                            <img :src="imageCode" @click="getImgCode"></img>
-                        </div>
+                    <Col span="24">
+                    <FormItem prop="username">
+                        <Input prefix="ios-contact" v-model="loginForm.username" placeholder="用户名" clearable/>
+                    </FormItem>
                     </Col>
                 </Row>
-                <p class="error">{{codeError}}</p>
-            </div>
-            <Button :loading="isShowLoading" class="submit" type="primary" @click="handleSubmit">登录</Button>
-            <p class="account"><span @click="register">注册账号</span> | <span @click="forgetPwd">忘记密码</span></p>
+                <Row>
+                    <Col span="24">
+                    <FormItem prop="password">
+                        <Input type="password" v-model="loginForm.password" prefix="md-lock" placeholder="密码" clearable/>
+                    </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="12">
+                    <FormItem prop="imgCode">
+                        <Input type="text" v-model="loginForm.imgCode" prefix="ios-code" placeholder="验证码" clearable/>
+                    </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <img :src="imageCodeUrl" @click="getImgCode"></img>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                    <FormItem>
+                        <Button class="submit-button" :loading="isShowLoading" type="primary" @click="handleSubmit('form')">登录</Button>
+                    </FormItem>
+                    </Col>
+                </Row>
+                <p class="extend-info"><span @click="register">注册账号</span> | <span @click="forgetPwd">忘记密码</span></p>
+            </Form>
         </div>
     </div>
 </template>
@@ -35,19 +45,30 @@ export default {
     name: 'login',
     data() {
         return {
-            username: 'lisi',
-            pwd: '123456',
-            usernameError: '',
-            pwdError: '',
-            codeError: '',
+            loginForm: {
+                username: 'lisi',
+                password: '123456',
+                imgCode: '',
+            },
+            imageCodeUrl: '',
             isShowLoading: false,
-            bg: {},
-            code: '',
-            imageCode: 'http://localhost:8080/user/getAuthCode',
+            login: {},
+            flag: false,
+            ruleValidate: {
+                username: [
+                    { required: true, message: '请填写账号', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: '请填写密码', trigger: 'blur'}
+                ],
+                imgCode: [
+                    { required: true, message: '请填写验证码', trigger: 'blur' },
+                ]
+            },
         }
     },
     created() {
-        this.bg.backgroundImage = 'url(' + require('../assets/imgs/bg0' + new Date().getDay() + '.jpg') + ')'
+        this.login.backgroundImage = 'url(' + require('../assets/imgs/bg0' + new Date().getDay() + '.jpg') + ')'
     },
     watch: {
         $route: {
@@ -58,48 +79,26 @@ export default {
         }
     },
     methods: {
-        verifyAccount(e) {
-            // if (this.username !== 'admin') {
-            //     this.usernameError = '账号为admin'
-            // } else {
-            //     this.usernameError = ''
-            // }
-        },
-        verifyPwd(e) {
-            // if (this.pwd !== 'admin') {
-            //     this.pwdError = '密码为admin'
-            // } else {
-            //     this.pwdError = ''
-            // }
-        },
-        verifyCode(e) {
-            // if (this.code !== '') {
-            //     this.codeError = '验证码无需填入'
-            // } else {
-            //     this.codeError = ''
-            // }
-        },
+        // verifyCode: function() {
+        //     this.axios.post('user/checkCode', {
+        //         imgCode: this.loginForm.imgCode
+        //     }).then((response) => {
+        //         this.flag = response.data
+        //         console.log(response.data)
+        //         console.log(this.flag)
+        //     })
+        // },
         getImgCode(){
-            let that = this
-            var randomNum = Math.random
-
-            // that.axios({
-            //     method:'get',
-            //     url:'http://localhost:8080/user/getAuthCode',
-            //     responseType:'stream'
-            // })
-            // .then(function(response) {
-            //     response.data.pipe(fs.createWriteStream('imgCode.jpeg'))
-            // });
-
-            that.axios.get('/user/getAuthCode?num='+randomNum)
-            .then(function (response) {
-                console.log(response);
-                that.imageCode = 'http://localhost:8080/user/getAuthCode?num'+randomNum;
-            })
-            .catch(function (error) {
+            var randomNum = Math.random()
+            var basicAddress = 'http://localhost:8080/'
+            var url = basicAddress+'user/getAuthCode?randomNum='+randomNum
+            this.axios.get(url)
+            .then( (response) => {
+                console.log(response)
+                this.imageCodeUrl = url
+            }).catch(function (error) {
                 console.log(error);
-            });
+            })
         },
         register() {
             console.log('注册账号')
@@ -107,26 +106,50 @@ export default {
         forgetPwd() {
             console.log('忘记密码')
         },
-        handleSubmit() {
-            this.axios.post('/user/login', {
-                username: this.username,
-                password: this.pwd
-            }).then((response) => {
-                console.log(response);
-                if(200 === response.data.code){
-                    this.isShowLoading = true
-                    // 登陆成功 设置用户信息
-                    localStorage.setItem('userImg', '')
-                    localStorage.setItem('userName', this.username)
-                    // 登陆成功 存储后台返回的 token
-                    localStorage.setItem('token', response.data.object)
-                    this.$router.push({path: this.redirect || '/'})
-                }else{
-                    that.$router.push('/login')
+        handleSubmit(form) {
+            // this.verifyCode()
+            this.$refs[form].validate((valid) => {
+                if (valid) {
+                    //验证验证码是否正确
+                    this.axios.post('user/checkCode', {
+                        imgCode: this.loginForm.imgCode
+                    }).then((response) => {
+                        console.log(response);
+                        this.flag = response.data
+                        //验证码正确再验证账号密码
+                        if(this.flag === true){
+                            this.axios.post('/user/login', {
+                                username: this.loginForm.username,
+                                password: this.loginForm.password,
+                            }).then((response) => {
+                                console.log(response);
+                                if(200 === response.data.code){
+                                    this.isShowLoading = true
+                                    // 登陆成功 设置用户信息
+                                    localStorage.setItem('userImg', '')
+                                    localStorage.setItem('userName', this.loginForm.username)
+                                    // 登陆成功 存储后台返回的 token
+                                    localStorage.setItem('token', response.data.object)
+                                    this.$router.push({path: this.redirect || '/'})
+                                }else{
+                                    this.$Message.error(response.data.msg);
+                                    that.$router.push('/login')
+                                }
+                            })
+                        }else{
+                            this.$Message.error('验证码错误');
+                        }
+                    }).catch((error) => {
+                        console.log(error)
+                        this.$Message.error("服务器可能崩溃了😂");
+                    });
                 }
             })
         }
     },
+    mounted: function() {
+        this.getImgCode()
+    }
 }
 </script>
 
@@ -179,13 +202,13 @@ export default {
     padding-left: 30px;
     height: 20px;
 }
-.login-vue .submit {
-    width: 200px;
+.login-vue .submit-button {
+    width: 100%;
 }
-.login-vue .account {
-    margin-top: 30px;
+.login-vue .extend-info {
+    margin-top: 1%;
 }
-.login-vue .account span {
+.login-vue .extend-info span {
     cursor: pointer;
 }
 .login-vue .ivu-icon {

@@ -49,7 +49,6 @@ const store = new Vuex.Store({
                     //             hidden: true,
                     //             name: 'msg',
                     //             text: '查看消息'
-                                
                     //         },
                     //         {
                     //             type: 'md-lock',

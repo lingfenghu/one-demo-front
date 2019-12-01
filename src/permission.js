@@ -14,9 +14,6 @@ router.beforeEach(async (to, from, next) => {
                 next()
             } else {
                 try {
-                    // 这里可以用 await 配合请求后台数据来生成路由
-                    // const data = await axios.get('xxx')
-                    // const routes = menusToRoutes(data)
                     const routes = menusToRoutes(store.state.menuItems)
                     // 动态添加路由
                     router.addRoutes(routes)

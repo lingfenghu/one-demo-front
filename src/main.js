@@ -29,7 +29,11 @@ axios.defaults.timeout = 5000
 // axios全局token
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
 // 设置axios请求头
-axios.headers = {'Content-Type':'application/json;charset=UTF-8'}
+// axios.headers = {'Content-Type':'application/json;charset=UTF-8'}
+axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8'
+//axios默认不发送cookie,每次请求都是新的会话
+axios.defaults.withCredentials=true
+
 // Vue.prototype.$axios = axios
 
 new Vue({

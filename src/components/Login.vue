@@ -46,8 +46,8 @@ export default {
     data() {
         return {
             loginForm: {
-                username: 'lisi',
-                password: '123456',
+                username: 'admin',
+                password: 'admin',
                 imgCode: '',
             },
             imageCodeUrl: '',

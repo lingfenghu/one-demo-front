@@ -38,7 +38,7 @@
                                 class="avatar-upload"
                                 :before-upload="handleUpload"
                                 action="//jsonplaceholder.typicode.com/posts/">
-                                <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 75px" height="105px"></img>
+                                <img src="" style="width: 75px;height: 105px"></img>
                             </Upload>
                         </Form-item>
                     </Col>

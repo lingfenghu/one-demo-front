@@ -1,7 +1,5 @@
 # vue-admin-template
 vue轻量级后台管理系统基础模板<br>
-[在线预览](https://woai3c.github.io)
-## [更新日志](https://github.com/woai3c/vue-admin-template/blob/master/update.md)
 
 ## 相关依赖
 * [vue-router](https://router.vuejs.org/zh/)
@@ -64,7 +62,6 @@ export default {
 
 `Index`组件一般情况下只需要传数据就行 其他不用关注
 
-市面上有大量的vue后台管理系统模板 但是功能都太丰富了 而且有很多组件用不上 所以写了这么一个最基础的 只有必要功能的模板
 UI库使用的是`iView` 有大量的组件可用 
 
 ### 子组件跳转到子组件
@@ -84,18 +81,13 @@ this.$route.params.id
 ## 使用
 #### 下载
 ```
-git clone git@github.com:woai3c/vue-admin-template.git
-
 cd vue-admin-template
-
 npm i
 ```
-
 #### 开发
 ```
 npm run serve
 ```
-
 #### 打包
 ````
 npm run build

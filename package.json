@@ -2,7 +2,7 @@
   "name": "vue-admin-template",
   "version": "1.0.0",
   "description": "轻量级后台管理系统基础模板",
-  "author": "woai3c <411020382@qq.com>",
+  "author": "",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",

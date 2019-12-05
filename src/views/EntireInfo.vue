@@ -86,7 +86,7 @@
                 </Col>
                 <Col span="8">
                 <Form-item prop="salaryCardId" label="工资卡号">
-                    <Input class="form-item" prefix="ios-card-outline" type="text" v-model="entireForm.salaryCardId" placeholder="工资卡号"></Input>
+                    <Input class="form-item" prefix="ios-card-outline" type="number" v-model="entireForm.salaryCardId" placeholder="工资卡号"></Input>
                 </Form-item>
                 </Col>
                 <Col span="8">

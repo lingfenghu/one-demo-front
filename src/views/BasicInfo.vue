@@ -55,7 +55,7 @@
                     </Col>
                     <Col span="8">
                         <Form-item prop="tel" label="手机号码">
-                            <Input class="form-item" prefix="ios-phone-portrait" type="text" v-model="basicForm.tel" placeholder="手机号码"></Input>
+                            <Input class="form-item" prefix="ios-phone-portrait" type="tel" v-model="basicForm.tel" placeholder="手机号码"></Input>
                         </Form-item>
                     </Col>
                     <Col span="8">

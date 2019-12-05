@@ -13,7 +13,7 @@
                 <Input class="form-item" v-model="jobForm.skillType" disabled></Input>
             </Form-item>
             <Form-item label="基准工资">
-                <Input class="form-item" v-model='jobForm.standardSalary' placeholder="请输入基准工资"></Input>
+                <Input class="form-item" type="number" v-model='jobForm.standardSalary' placeholder="请输入基准工资"></Input>
             </Form-item>
             <Form-item label="工种类型">
                 <Select class="form-item" v-model='jobForm.jobType'>

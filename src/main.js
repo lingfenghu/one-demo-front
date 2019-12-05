@@ -22,7 +22,7 @@ let AUTH_TOKEN=(function(){
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 
-// 设置基础URL
+// 设置基础URL 192.168.80.128 192.168.43.57 
 axios.defaults.baseURL = 'http://localhost:8080'
 // 设置请求超时时间 5s
 axios.defaults.timeout = 5000

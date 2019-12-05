@@ -1,7 +1,5 @@
 # vue-admin-template
 vue轻量级后台管理系统基础模板<br>
-[在线预览](https://woai3c.github.io)
-## [更新日志](https://github.com/woai3c/vue-admin-template/blob/master/update.md)
 
 ## 相关依赖
 * [vue-router](https://router.vuejs.org/zh/)

@@ -37,7 +37,7 @@
                             <Upload
                                 class="avatar-upload"
                                 :before-upload="handleUpload"
-                                action="//jsonplaceholder.typicode.com/posts/">
+                                action="">
                                 <img src="" style="width: 75px;height: 105px"></img>
                             </Upload>
                         </Form-item>
@@ -49,28 +49,53 @@
                 <h3>其他信息</h3>
                 <Row>
                     <Col span="8">
-                        <Form-item prop="jobGrade" label="从业等级">
-                            <Input class="form-item" prefix="ios-podium-outline" type="text" v-model="basicForm.jobGrade" placeholder="从业等级"></Input>
+                        <Form-item prop="grade" label="等级">
+                            <Select class="form-item" disabled  prefix="ios-podium-outline" v-model="basicForm.grade" placeholder="等级">
+                                <Option v-for="item in grades" :value="item.value" :key="item">{{ item.label }}</Option>
+                            </Select>
                         </Form-item>
+                        <!-- <Form-item prop="jobGrade" label="从业等级">
+                            <Input class="form-item" prefix="ios-podium-outline" type="text" v-model="basicForm.jobGrade" placeholder="从业等级"></Input>
+                        </Form-item> -->
                     </Col>
                     <Col span="8">
                         <Form-item prop="tel" label="手机号码">
-                            <Input class="form-item" prefix="ios-phone-portrait" type="tel" v-model="basicForm.tel" placeholder="手机号码"></Input>
+                            <Input class="form-item" prefix="ios-phone-portrait" type="number" v-model="basicForm.tel" placeholder="手机号码"></Input>
                         </Form-item>
                     </Col>
                     <Col span="8">
-                        <Form-item prop="cardId" label="卡号">
-                            <Input class="form-item" prefix="ios-card" type="text" v-model="basicForm.cardId" placeholder="卡号"></Input>
-                        </Form-item>
+                        <!-- <Form-item prop="cardId" label="卡号">
+                            <Input class="form-item" prefix="ios-card" disabled type="text" v-model="basicForm.cardId" placeholder="卡号"></Input>
+                        </Form-item> -->
                     </Col>
                 </Row>
                 <Row>
                     <Col span="16">
-                    <Form-item prop="salaryCardId" label="工资卡号">
-                        <Input class="form-item" prefix="ios-card-outline" type="text" v-model="basicForm.salaryCardId" placeholder="工资卡号"></Input>
-                    </Form-item>
+                        <Form-item prop="salaryCardId" label="工资卡号">
+                            <Input class="form-item" prefix="ios-card-outline" type="number" maxlength="20" v-model="basicForm.salaryCardId" placeholder="工资卡号"></Input>
+                        </Form-item>
                     </Col>
                     <Col span="8">
+                        <Form-item prop="jobType" label="工种" v-model="basicForm.salaryCardId">
+                            <Select class="form-item" v-model="basicForm.jobType">
+                                <Option v-for="item in jobTypes" :value="item.value" :key="item">{{ item.label }}</Option>
+                            </Select>
+                        </Form-item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="8">
+                        <Form-item prop="enterprise" label="从事企业">
+                            <Input class="form-item" prefix="ios-briefcase" type="text" v-model="basicForm.enterprise" placeholder="从事企业"></Input>
+                        </Form-item>
+                    </Col>
+                    <Col span="8">
+                        <Form-item prop="project" label="从事工程">
+                            <Input class="form-item" prefix="ios-document" type="text" v-model="basicForm.project" placeholder="从事工程"></Input>
+                        </Form-item>
+                    </Col>
+                    <Col span="8">
+
                     </Col>
                 </Row>
                 <Row>
@@ -78,7 +103,6 @@
                         <Form-item>
                             <Button type="primary" @click="handleSubmit('form')">提交</Button>
                             <Button @click="handleReset('form')" style="margin-left: 15px">重置</Button>
-
                         </Form-item>
                     </Col>
                     
@@ -98,11 +122,39 @@ export default {
                 staffName: '',
                 sex: '',
                 identityId: '',
-                jobGrade: '',
+                grade: 'C',
+                // jobGrade: '',
                 tel: '',
-                cardId: '',
+                // cardId: '',
                 salaryCardId: '',
+                enterprise: '',
+                jobType: '',
+                project: ''
             },
+            grades: [
+                {
+                    value: 'A',
+                    label: 'A级'
+                },
+                {
+                    value: 'B',
+                    label: 'B级'
+                },
+                {
+                    value: 'C',
+                    label: 'C级'
+                }
+            ],
+            jobTypes: [
+                {
+                    value: '普通',
+                    label: '普通工种'
+                },
+                {
+                    value: '特殊',
+                    label: '特殊工种'
+                }
+            ],
             ruleValidate: {
                 staffName: [
                     { required: true, message: '请填写姓名', trigger: 'blur' }
@@ -112,16 +164,21 @@ export default {
                 ],
                 identityId: [
                     { required: true, message: '请填写身份证号', trigger: 'blur' },
+                    { pattern: /^(\d{15}|(\d{17}(\d|X)))$/, message: "证件号码格式不正确"}
                 ],
-                jobGrade: [
-                    { required: true, message: '请填写从业等级', trigger: 'blur' }
+                grade: [
+                    { required: true, message: '请选择等级', trigger: 'blur' },
                 ],
+                // jobGrade: [
+                //     { required: true, message: '请填写从业等级', trigger: 'blur' }
+                // ],
                 tel: [
                     { required: true, message: '请填写手机号码', trigger: 'blur' },
+                    { pattern: /^(\d{11})$/,message: "手机号码格式不正确"}
                 ],
-                cardId: [
-                    { required: true, message: '请填写卡号', trigger: 'blur' }
-                ],
+                // cardId: [
+                //     { required: true, message: '请填写卡号', trigger: 'blur' }
+                // ],
                 salaryCardId: [
                     { required: true, message: '请填写工资卡号', trigger: 'blur' }
                 ],

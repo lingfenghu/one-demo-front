@@ -59,6 +59,21 @@ export const asyncRoutes = {
         name: 'genderstat',
         component: () => import('../views/GenderStat.vue')
     },
+    'agestat': {
+        path: 'agestat',
+        name: 'agestat',
+        component: () => import('../views/AgeStat.vue')
+    },
+    'jobtypestat': {
+        path: 'jobtypestat',
+        name: 'jobtypestat',
+        component: () => import('../views/JobTypeStat.vue')
+    },
+    'gradestat': {
+        path: 'gradestat',
+        name: 'gradestat',
+        component: () => import('../views/GradeStat.vue')
+    },
     'joblist': {
         path: 'joblist',
         name: 'joblist',

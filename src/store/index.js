@@ -77,15 +77,18 @@ const store = new Vuex.Store({
                     },
                     {
                         text: '年龄统计',
-                        type: 'ios-paper',
+                        type: 'md-podium',
+                        name: 'agestat'
                     },
                     {
                         text: '工种统计',
                         type: 'ios-paper',
+                        name: 'jobtypestat'
                     },
                     {
                         text: '等级统计',
-                        type: 'ios-paper',
+                        type: 'md-star',
+                        name: 'gradestat'
                     },
                 ]
             },

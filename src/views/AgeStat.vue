@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row class="search-tab">
-            <Form ref="form" :label-width="100">
+            <Form ref="form" :model="queryForm" :label-width="100">
             <Col span="6">
                 <Form-item label="工种" :model="queryForm">
                     <Select v-model="queryForm.jobType">
@@ -10,9 +10,9 @@
                 </Form-item>
             </Col>
             <Col span="6">
-                <Form-item label="年龄">
-                    <Select v-model="queryForm.ageInterval">
-                        <Option v-for="item in ageSegments" :value="item.value" :key="item">{{ item.label }}</Option>
+                <Form-item label="性别">
+                    <Select v-model="queryForm.gender">
+                        <Option v-for="item in genders" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>
                 </Form-item>
             </Col>
@@ -36,12 +36,12 @@
 
 <script>
 export default {
-    name: 'genderstat',
+    name: 'agestat',
     data() {
         return{
             queryForm: {
                 jobType: '0',
-                ageInterval: '0',
+                gender: '-1',
                 grade: '0',
             },
             jobTypes: [
@@ -58,23 +58,24 @@ export default {
                     label: '特殊工种'
                 }
             ],
-            ageSegments: [
+            genders: [
                 {
-                    value: '0',
+                    value: '-1',
                     label: '全部'
                 },
                 {
+                    value: '0',
+                    label: '保密'
+                },
+                {
                     value: '1',
-                    label: '18-30 岁'
+                    label: '女'
                 },
                 {
                     value: '2',
-                    label: '30-45 岁'
+                    label: '男'
                 },
-                {
-                    value: '3',
-                    label: '45-60 岁'
-                }
+                
             ],
             grades: [
                 {
@@ -99,38 +100,31 @@ export default {
     methods: {
         draw(){
             var myChart = this.$echarts.init(document.getElementById('chart'));
-            //拿到数据
-            this.axios.get('statistics/gender', {
+            console.log(this.queryForm)
+            this.axios.get('statistics/age', {
                 params: {
                     jobType: this.queryForm.jobType,
-                    ageInterval: this.queryForm.ageInterval,
+                    sex: this.queryForm.gender,
                     grade: this.queryForm.grade
                 }
             }).then(function (response) {
                 console.log(response.data.object);
-                var pieData = []
-                var legendData = []
+                var barData = []
+                var xAxisData = []
                 response.data.object.forEach((item)=>{
                     console.log(item)
                     var temp = {}
-                    if(item.sex === 0){
-                        temp.name = '未选择'
-                    }else if(item.sex === 1){
-                        temp.name = '女'
-                    }else{
-                        temp.name = '男'
-                    }
+                    temp.name = item.ageInterval
                     temp.value = item.count
-                    pieData.push(temp);
-                    legendData.push(temp.name);
+                    xAxisData.push(temp.name)
+                    barData.push(temp)
                 })
-                console.log(pieData)
-                console.log(legendData)
+                console.log(barData)
+                console.log(xAxisData)
                 myChart.setOption({
                     title: { 
-                        text: '人员男女性别比',
+                        text: '人员不同年龄段数量',
                         textStyle: {
-                            //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
                             fontFamily: 'Verdana',
                             fontSize: 20,
                             fontStyle: 'normal',
@@ -140,17 +134,17 @@ export default {
                             textAligin: 'left'
                         }
                     },
-                    legend: {
-                        data: legendData,
-                        // top: '20'
-                    },
                     tooltip: {},//数据提示
-                    series: {
-                        type: 'pie',
-                        data: pieData
-                    }
+                    xAxis: {
+                        data: xAxisData
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '人数',
+                        type: 'bar',
+                        data: barData
+                    }]
                 });
-                
             })
         },
         handleSubmit(){

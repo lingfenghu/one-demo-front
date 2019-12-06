@@ -29,7 +29,7 @@
                         </Col>
                         <Col span="12">
                         <Form-item prop="age" label="年龄">
-                            <InputNumber class="form-item" v-model="entireForm.age" :max="200" :min="15" placeholder="年龄" @on-blur="ageRange"></InputNumber>
+                            <InputNumber class="form-item" v-model="entireForm.age" :max="200" :min="15" readonly placeholder="年龄" @on-blur="ageRange"></InputNumber>
                         </Form-item>
                         </Col>
                     </Row>
@@ -73,9 +73,9 @@
                 </Form-item>
                 </Col>
                 <Col span="8">
-                <Form-item prop="jobGrade" label="从业等级">
+                <!-- <Form-item prop="jobGrade" label="从业等级">
                     <Input class="form-item" prefix="ios-podium-outline" type="text" v-model="entireForm.jobGrade" placeholder="从业等级"></Input>
-                </Form-item>
+                </Form-item> -->
                 </Col>
             </Row>
             <Row>
@@ -90,8 +90,8 @@
                 </Form-item>
                 </Col>
                 <Col span="8">
-                <Form-item prop="project" label="从事项目">
-                    <Input class="form-item" prefix="ios-document" type="text" v-model="entireForm.project" placeholder="从事项目"></Input>
+                <Form-item prop="project" label="从事工程">
+                    <Input class="form-item" prefix="ios-document" type="text" v-model="entireForm.project" placeholder="从事工程"></Input>
                 </Form-item>
                 </Col>
             </Row>
@@ -171,6 +171,7 @@ export default {
                 ],
                 tel: [
                     { required: true, message: '请填写手机号码', trigger: 'blur' },
+                    { pattern: /^(\d{11})$/,message: "手机号码格式不正确"}
                 ],
                 cardId: [
                     { required: true, message: '请填写卡号', trigger: 'blur' }

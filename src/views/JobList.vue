@@ -136,22 +136,27 @@ export default {
             })
         },
         remove (row) {
-            this.axios({
-            method: 'delete',
-            url: 'job',
-                params: {
-                    jobId: row.jobId
+            this.$Modal.confirm({
+                title: '删除工种信息',
+                content: '<p>确认删除该条工种信息吗?</p>',
+                onOk: () => {
+                    this.axios({
+                    method: 'delete',
+                    url: 'job',
+                        params: {
+                            jobId: row.jobId
+                        }
+                    }).then((response) =>{
+                        console.log(response)
+                        this.initTable()
+                        this.$Message.success('删除成功');
+                    })
+                },
+                onCancel: () => {
+                    // this.$Message.info('你点击了取消');
                 }
-            }).then((response) =>{
-                console.log(response)
-                if(200 === response.data.code){
-                    this.initTable()
-                }else{
-                    this.$Message.error('数据删除失败',5);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            })
+            });
+
         },
         submit(){
             this.update(this.jobForm)

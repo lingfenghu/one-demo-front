@@ -140,16 +140,27 @@ export default {
             });
         },
         remove (row) {
-            this.axios({
-            method: 'delete',
-            url: '/staff',
-                params: {
-                    staffId: row.staffId
+            this.$Modal.confirm({
+                title: '删除人员信息',
+                content: '<p>确认删除该条人员信息吗?</p>',
+                onOk: () => {
+                    this.axios({
+                    method: 'delete',
+                    url: '/staff',
+                        params: {
+                            staffId: row.staffId
+                        }
+                    }).then((response) =>{
+                        console.log(response);
+                        this.initTable()
+                        this.$Message.success('删除成功');
+                    })
+                },
+                onCancel: () => {
+                    // this.$Message.info('你点击了取消');
                 }
-            }).then((response) =>{
-                console.log(response);
-                this.initTable()
-            })
+            });
+
         },
         getProjectList(){
             this.projectList = []

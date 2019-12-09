@@ -1,9 +1,9 @@
 <template>
     <div>
         <Row class="search-tab">
-            <Form ref="form" :label-width="100">
+            <Form ref="form" :model="queryForm" :label-width="100">
             <Col span="6">
-                <Form-item label="工种" :model="queryForm">
+                <Form-item label="工种">
                     <Select v-model="queryForm.jobType">
                         <Option v-for="item in jobTypes" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>

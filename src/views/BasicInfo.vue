@@ -86,12 +86,18 @@
                 <Row>
                     <Col span="8">
                         <Form-item prop="enterprise" label="从事企业">
-                            <Input class="form-item" prefix="ios-briefcase" type="text" v-model="basicForm.enterprise" placeholder="从事企业"></Input>
+                            <Select v-model="basicForm.companyId" prefix="ios-briefcase" @on-change="getProjects()" clearable transfer>
+                                <Option v-for="item in enterprises" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <!-- <Input class="form-item" prefix="ios-briefcase" type="text" v-model="basicForm.enterprise" placeholder="从事企业"></Input> -->
                         </Form-item>
                     </Col>
                     <Col span="8">
                         <Form-item prop="project" label="从事工程">
-                            <Input class="form-item" prefix="ios-document" type="text" v-model="basicForm.project" placeholder="从事工程"></Input>
+                            <Select v-model="basicForm.projectList" prefix="ios-document" max-tag-count='2' multiple transfer>
+                                <Option v-for="item in projects" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <!-- <Input class="form-item" prefix="ios-document" type="text" v-model="basicForm.project" placeholder="从事工程"></Input> -->
                         </Form-item>
                     </Col>
                     <Col span="8">
@@ -127,9 +133,9 @@ export default {
                 tel: '',
                 // cardId: '',
                 salaryCardId: '',
-                enterprise: '',
+                companyId: '',
                 jobType: '',
-                project: ''
+                projectList: []
             },
             grades: [
                 {
@@ -155,6 +161,8 @@ export default {
                     label: '特殊工种'
                 }
             ],
+            enterprises: [],
+            projects: [],
             ruleValidate: {
                 staffName: [
                     { required: true, message: '请填写姓名', trigger: 'blur' }
@@ -187,7 +195,41 @@ export default {
         }
     },
     methods: {
+        getEnterprises(){
+            this.enterprises = []
+            this.axios.get('enterprise')
+            .then((response) => {
+                console.log(response)
+                response.data.object.forEach((item)=>{
+                    var temp = {}
+                    temp.label = item.companyName
+                    temp.value = item.companyId
+                    this.enterprises.push(temp);
+                })
+            })
+            this.getProjects()
+        },
+        getProjects(){
+            console.log(this.basicForm.companyId)
+            this.basicForm.projectList = []
+            this.projects = []
+            this.axios.get('enterprise/projects',{
+                params: {
+                    companyId: this.basicForm.companyId
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                response.data.object.forEach((item)=>{
+                    var temp = {}
+                    temp.label = item.projectName
+                    temp.value = item.projectId
+                    this.projects.push(temp);
+                })
+            })
+        },
         handleSubmit(form) {
+            console.log(this.basicForm)
             this.$refs[form].validate((valid) => {
                 if (valid) {
                     this.axios({
@@ -196,7 +238,7 @@ export default {
                         data: this.basicForm
                     }).then((response) => {
                         //新增成功后清空表单数据
-                        this.handleReset(form)
+                        // this.handleReset(form)
                         this.$Message.success('信息提交成功');
                     })                    
                 } else {
@@ -211,7 +253,7 @@ export default {
     mounted: function () {
         //页面加载完成后函数
         this.$nextTick(function () {
-
+            this.getEnterprises()
         })
     }
 }

@@ -90,7 +90,8 @@ export default {
         // },
         getImgCode(){
             var randomNum = Math.random()
-            var basicAddress = 'http://192.168.11.130:8080/'
+            var basicAddress = 'http://localhost:8080/'
+            // var basicAddress = 'http://192.168.11.130:8080/'
             var url = basicAddress+'user/getAuthCode?randomNum='+randomNum
             this.axios.get(url)
             .then( (response) => {

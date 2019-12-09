@@ -75,7 +75,6 @@ export default {
                     value: '2',
                     label: '男'
                 },
-                
             ],
             grades: [
                 {

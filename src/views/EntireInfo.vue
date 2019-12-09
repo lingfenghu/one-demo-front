@@ -81,7 +81,9 @@
             <Row>
                 <Col span="8">
                 <Form-item prop="enterprise" label="从事企业">
-                    <Input class="form-item" prefix="ios-briefcase" type="text" v-model="entireForm.enterprise" placeholder="从事企业"></Input>
+                    <Select v-model="entireForm.companyId" prefix="ios-briefcase" @on-change="getProjects()" clearable transfer>
+                        <Option v-for="item in enterprises" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
                 </Form-item>
                 </Col>
                 <Col span="8">
@@ -91,7 +93,9 @@
                 </Col>
                 <Col span="8">
                 <Form-item prop="project" label="从事工程">
-                    <Input class="form-item" prefix="ios-document" type="text" v-model="entireForm.project" placeholder="从事工程"></Input>
+                    <Select v-model="entireForm.projectList" prefix="ios-document" max-tag-count='2' multiple transfer>
+                        <Option v-for="item in projects" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
                 </Form-item>
                 </Col>
             </Row>
@@ -127,9 +131,9 @@ export default {
                 grade: '',
                 jobType: '',
                 jobGrade: '',
-                enterprise: '',
+                companyId: '',
                 salaryCardId: '',
-                project: ''
+                projectList: []
             },
             staff: '',
             grades: [
@@ -156,6 +160,8 @@ export default {
                     label: '特殊工种'
                 }
             ],
+            enterprises: [],
+            projects: [],
             ruleValidate: {
                 staffName: [
                     { required: true, message: '请填写姓名', trigger: 'blur' }
@@ -184,6 +190,37 @@ export default {
         }
     },
     methods: {
+        getEnterprises(){
+            this.enterprises = []
+            this.axios.get('enterprise')
+            .then((response) => {
+                console.log(response)
+                response.data.object.forEach((item)=>{
+                    var temp = {}
+                    temp.label = item.companyName
+                    temp.value = item.companyId
+                    this.enterprises.push(temp);
+                })
+            })
+        },
+        getProjects(){
+            this.entireForm.projectList = []
+            this.projects = []
+            this.axios.get('enterprise/projects',{
+                params: {
+                    companyId: this.entireForm.companyId
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                response.data.object.forEach((item)=>{
+                    var temp = {}
+                    temp.label = item.projectName
+                    temp.value = item.projectId
+                    this.projects.push(temp);
+                })
+            })
+        },
         handleSubmit(form){
             this.$refs[form].validate((valid) => {
                 if (valid) {
@@ -212,16 +249,23 @@ export default {
     mounted: function () {
         this.$nextTick(function () {
             if(this.$route.query.info!=null){
+                this.getEnterprises()
                 this.staff = this.$route.query.info
                 this.entireForm = this.staff
                 if(this.staff.sex === "男"){
-                    this.entireForm.sex = '2';
+                    this.entireForm.sex = '2'
                 }else if(this.staff.sex === "女"){
-                    this.entireForm.sex = '1';
+                    this.entireForm.sex = '1'
                 }else{
-                    this.entireForm.sex = '0';
+                    this.entireForm.sex = '0'
                 }
-                
+                //只有entireForm设置了值，getProjects才能正确调用
+                this.getProjects()
+                var tempArr = []
+                this.staff.projects.forEach((item)=>{
+                    tempArr.push(item.projectId)
+                })
+                this.entireForm.projectList = tempArr
             }
         })
     },

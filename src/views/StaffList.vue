@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <div class="search-bar">
@@ -6,7 +5,7 @@
             <Row :gutter="20">
                 <Col span="6">
                 <Form-item label="从事工程">
-                    <Select v-model="staffForm.project" placeholder="选择工程" clearable>
+                    <Select v-model="staffForm.projectId" placeholder="选择工程" clearable>
                         <Option v-for="item in projectList" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>
                 </Form-item>
@@ -48,7 +47,7 @@ export default {
             pageNum: '',
             pageSize: '',
             staffForm: {
-                project: '',
+                projectId: '',
                 cardId: '',
                 staffName: ''
             },
@@ -62,11 +61,11 @@ export default {
                 },
                 {
                     title: '从事企业',
-                    key: 'enterprise'
+                    key: 'companyName'
                 },
                 {
                     title: '从事工程',
-                    key: 'project'
+                    key: 'projectNameList'
                 },
                 {
                     title: '卡号',
@@ -164,13 +163,13 @@ export default {
         },
         getProjectList(){
             this.projectList = []
-            this.axios.get('staff/projects')
+            this.axios.get('project')
             .then((response) => {
                 console.log(response)
                 response.data.object.forEach((item)=>{
                     var temp = {}
-                    temp.label = item
-                    temp.value = item
+                    temp.label = item.projectName
+                    temp.value = item.projectId
                     this.projectList.push(temp);
                 })
             })
@@ -190,28 +189,40 @@ export default {
             this.getProjectList();
             this.axios.get('/staff', {
                 params: {
-                    project: this.staffForm.project,
+                    projectId: this.staffForm.projectId,
                     cardId: this.staffForm.cardId,
                     staffName: this.staffForm.staffName,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                 }
             }).then((response) =>{
-                console.log(response);
-                var index = 0;
-                this.total = response.data.object.total
+                console.log(response)
+                var index = 0
+                this.total = response.data.object.size
                 this.pageNum = response.data.object.pageNum
                 this.pageSize = response.data.object.pageSize
-                response.data.object.list.forEach((item)=>{
+                response.data.object.list.forEach((item1)=>{
+                    console.log(item1)
                     index++
-                    item.index = (this.pageNum-1)*this.pageSize+index
-                    if(item.sex === 0){
-                        item.sex = '保密'
-                    }else if(item.sex === 1){
-                        item.sex = '女'
+                    item1.index = (this.pageNum-1)*this.pageSize+index
+                    if(item1.sex === 0){
+                        item1.sex = '保密'
+                    }else if(item1.sex === 1){
+                        item1.sex = '女'
                     }else{
-                        item.sex = '男'
+                        item1.sex = '男'
                     }
+                    item1.companyName = item1.enterprise.companyName
+                    var No = 0
+                    item1.projectNameList = ''
+                    item1.projects.forEach((item2)=>{
+                        console.log(item2)
+                        No++
+                        item1.projectNameList += item2.projectName
+                        if(item1.projects.length>No){
+                            item1.projectNameList += ' '
+                        }
+                    })
                 })
                 this.tableData = response.data.object.list
             })

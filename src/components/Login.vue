@@ -34,7 +34,7 @@
                     </FormItem>
                     </Col>
                 </Row>
-                <p class="extend-info"><span @click="register">注册账号</span> | <span @click="forgetPwd">忘记密码</span></p>
+                <!-- <p class="extend-info"><span @click="register">注册账号</span> | <span @click="forgetPwd">忘记密码</span></p> -->
             </Form>
         </div>
     </div>

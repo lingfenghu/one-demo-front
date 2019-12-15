@@ -35,14 +35,14 @@
                     </Row>
                 </Col>
                 <Col span="8">
-                <Form-item prop="avatar" label="头像">
+                <!-- <Form-item prop="avatar" label="头像">
                     <Upload
                         class="avatar-upload"
                         :before-upload="handleUpload"
                         action="">
                         <img src="" style="width: 75px;height: 105px"></img>
                     </Upload>
-                </Form-item>
+                </Form-item> -->
                 </Col>
             </Row>
             <Row>
@@ -227,10 +227,10 @@ export default {
                     console.log(this.entireForm)
                     this.axios.put('/staff',this.entireForm)
                     .then((response) => {
-                        this.$Message.success('信息提交成功');
-                        // setTimeout(() => {
-                            
-                        // }, 1000);
+                        this.$Message.success('信息提交成功,3秒后自动跳转');
+                        setTimeout(() => {
+                            this.$parent.gotoPage('stafflist')
+                        }, 3000);
                     })
                 }else{
                     this.$Message.error('表单验证失败!');

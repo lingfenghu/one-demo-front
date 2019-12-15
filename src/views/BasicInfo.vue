@@ -33,13 +33,18 @@
                         </Row>
                     </Col>
                     <Col span="8">
-                        <Form-item prop="avatar" label="头像">
-                            <Upload
-                                class="avatar-upload"
-                                :before-upload="handleUpload"
-                                action="">
+                        <!-- <Form-item prop="avatar" label="头像">
+                            <Upload class="avatar-upload"
+                                ref="upload"
+                                :format="['jpeg','jpg','png']"
+                                action="/api/avatar/upload"
+                                accept="image/png, image/jpeg, image/png"
+                                :max-size="10240"
+                                :on-format-error="handleFormatError"
+                                :on-exceeded-size="handleMaxSize"
+                                :before-upload="handleBeforeUpload">
                                 <img src="" style="width: 75px;height: 105px"></img>
-                            </Upload>
+                            </Upload> -->
                         </Form-item>
                     </Col>
                 </Row>
@@ -192,6 +197,7 @@ export default {
                 ],
             },
             avatarUrl: '',
+            uploadList: []
         }
     },
     methods: {
@@ -228,6 +234,18 @@ export default {
                 })
             })
         },
+        handleFormatError (file) {
+            this.$Notice.warning({
+                title: '文件格式不正确',
+                desc: file.name + '是不正确的,请选择png jpg jpeg图片格式'
+            });
+        },
+        handleMaxSize (file) {
+            this.$Notice.warning({
+                title: '文件大小不正确',
+                desc: file.name + '体积太大,请选择不超过10M的文件'
+            });
+        },
         handleSubmit(form) {
             console.log(this.basicForm)
             this.$refs[form].validate((valid) => {
@@ -238,8 +256,9 @@ export default {
                         data: this.basicForm
                     }).then((response) => {
                         //新增成功后清空表单数据
-                        // this.handleReset(form)
+                        this.handleReset(form)
                         this.$Message.success('信息提交成功');
+                        this.$parent.gotoPage('stafflist')
                     })                    
                 } else {
                     this.$Message.error('表单验证失败!');

@@ -71,9 +71,10 @@
                             </div>
                             <DropdownMenu slot="list">
                                 <!-- name标识符 -->
-                                <DropdownItem name="1">基本资料</DropdownItem>
-                                <DropdownItem name="2">修改密码</DropdownItem>
-                                <DropdownItem divided name="3">退出登陆</DropdownItem>
+                                <!-- <DropdownItem name="1">基本资料</DropdownItem>
+                                <DropdownItem name="2">修改密码</DropdownItem> -->
+                                <!-- <DropdownItem divided name="3">退出登陆</DropdownItem> -->
+                                <DropdownItem name="3">退出登陆</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>

@@ -198,7 +198,7 @@ export default {
             }).then((response) =>{
                 console.log(response)
                 var index = 0
-                this.total = response.data.object.size
+                this.total = response.data.object.total
                 this.pageNum = response.data.object.pageNum
                 this.pageSize = response.data.object.pageSize
                 response.data.object.list.forEach((item1)=>{
@@ -212,7 +212,9 @@ export default {
                     }else{
                         item1.sex = '男'
                     }
-                    item1.companyName = item1.enterprise.companyName
+                    if(item1.enterprise!=null){
+                        item1.companyName = item1.enterprise.companyName
+                    }
                     var No = 0
                     item1.projectNameList = ''
                     item1.projects.forEach((item2)=>{

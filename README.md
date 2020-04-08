@@ -26,9 +26,11 @@ npm run build
 * echart图表展示
 * ...
 ##### 项目图片预览：
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![登录页](https://github.com/lingfenghu/ylz-demo-front/blob/master/raw/1.png)
+![展示页](https://github.com/lingfenghu/ylz-demo-front/blob/master/raw/2.png)
+![展示页](https://github.com/lingfenghu/ylz-demo-front/blob/master/raw/3.png)
+![展示页](https://github.com/lingfenghu/ylz-demo-front/blob/master/raw/4.png)
+
+###
+[个人主页](https://lingfenghu.github.io/)
 

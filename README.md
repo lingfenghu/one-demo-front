@@ -1,5 +1,5 @@
 # 套用[vue-admin-template](https://github.com/woai3c/vue-admin-template.git)基础模板
-## ylz-demo-front 考核项目前端部分 [后端部分](https://github.com/woai3c/vue-admin-template.git)
+## ylz-demo-front 考核项目前端部分 [后端部分](https://github.com/lingfenghu/ylz-demo-web)
 ### 使用
 ======================
 ###### 下载
